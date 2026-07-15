@@ -16,6 +16,11 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # Localization
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+
   # Design system
   rg_design_system:
     git:
@@ -29,3 +34,4 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  generate: true
