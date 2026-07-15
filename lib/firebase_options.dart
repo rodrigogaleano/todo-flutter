@@ -70,7 +70,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '268225053084',
     projectId: 'todo-468a3',
     storageBucket: 'todo-468a3.firebasestorage.app',
-    iosClientId: '268225053084-d57ckoeh06h71pb98priqroofl14ac3j.apps.googleusercontent.com',
+    iosClientId:
+        '268225053084-d57ckoeh06h71pb98priqroofl14ac3j.apps.googleusercontent.com',
     iosBundleId: 'com.rodrigogaleano.todoFlutter',
   );
 }
