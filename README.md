@@ -1,17 +1,24 @@
-# todo_flutter
+# Todo
 
-A new Flutter project.
+A cross-platform todo app and the first product built on my [Design System](https://github.com/rodrigogaleano/rg-design-system-flutter).
 
-## Getting Started
+## Architecture
 
-This project is a starting point for a Flutter application.
+It follows the official [Flutter app-architecture guidelines](https://docs.flutter.dev/app-architecture).
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```
+lib/
+├── config/          # Dependency injection
+├── routing/         # go_router config + route paths
+├── utils/           # Result, Command, shared helpers
+├── domain/
+│   └── models/      # App-wide models
+├── data/
+│   ├── repositories/
+│   ├── services/
+│   └── model/       # Data-source DTOs
+├── ui/
+│   ├── core/        # Shared widgets + theme glue
+│   └── <feature>/   # view_models/ + widgets/
+└── main.dart
+```

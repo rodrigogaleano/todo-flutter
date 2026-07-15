@@ -1,14 +1,22 @@
-gradle-wrapper.jar
+# Gradle
 /.gradle
 /captures/
+gradle-wrapper.jar
 /gradlew
 /gradlew.bat
-/local.properties
-GeneratedPluginRegistrant.java
 .cxx/
 
-# Remember to never publicly share your keystore.
+# Local config
+/local.properties
+
+# Flutter-generated
+GeneratedPluginRegistrant.java
+
+# Signing — never publicly share your keystore.
 # See https://flutter.dev/to/reference-keystore
 key.properties
 **/*.keystore
 **/*.jks
+
+# Note: app/google-services.json is committed on purpose (public Firebase
+# client config, not a secret).
