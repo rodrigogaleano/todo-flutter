@@ -3,5 +3,41 @@
   "appTitle": "Todo",
   "@appTitle": {
     "description": "Application title"
+  },
+  "loginEmailLabel": "Email",
+  "@loginEmailLabel": {
+    "description": "Label for the email field on the login screen"
+  },
+  "loginPasswordLabel": "Password",
+  "@loginPasswordLabel": {
+    "description": "Label for the password field on the login screen"
+  },
+  "loginSubmit": "Sign in",
+  "@loginSubmit": {
+    "description": "Label of the primary login button"
+  },
+  "loginForgotPassword": "Forgot my password",
+  "@loginForgotPassword": {
+    "description": "Link to the password recovery screen"
+  },
+  "loginCreateAccount": "Create account",
+  "@loginCreateAccount": {
+    "description": "Link to the sign-up screen"
+  },
+  "loginFailed": "Could not sign in. Check your credentials and try again.",
+  "@loginFailed": {
+    "description": "Error shown when authentication fails"
+  },
+  "validationEmailRequired": "Enter your email",
+  "@validationEmailRequired": {
+    "description": "Validation shown when the email field is empty"
+  },
+  "validationEmailInvalid": "Enter a valid email",
+  "@validationEmailInvalid": {
+    "description": "Validation shown when the email format is invalid"
+  },
+  "validationPasswordRequired": "Enter your password",
+  "@validationPasswordRequired": {
+    "description": "Validation shown when the password field is empty"
   }
 }

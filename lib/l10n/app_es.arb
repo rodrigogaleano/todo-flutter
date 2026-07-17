@@ -1,4 +1,13 @@
 {
   "@@locale": "es",
-  "appTitle": "Tareas"
+  "appTitle": "Tareas",
+  "loginEmailLabel": "Correo electrónico",
+  "loginPasswordLabel": "Contraseña",
+  "loginSubmit": "Iniciar sesión",
+  "loginForgotPassword": "Olvidé mi contraseña",
+  "loginCreateAccount": "Crear cuenta",
+  "loginFailed": "No se pudo iniciar sesión. Verifica tus credenciales e inténtalo de nuevo.",
+  "validationEmailRequired": "Ingresa tu correo electrónico",
+  "validationEmailInvalid": "Ingresa un correo electrónico válido",
+  "validationPasswordRequired": "Ingresa tu contraseña"
 }

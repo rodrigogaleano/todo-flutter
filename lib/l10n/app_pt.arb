@@ -1,4 +1,13 @@
 {
   "@@locale": "pt",
-  "appTitle": "Tarefas"
+  "appTitle": "Tarefas",
+  "loginEmailLabel": "Email",
+  "loginPasswordLabel": "Senha",
+  "loginSubmit": "Entrar",
+  "loginForgotPassword": "Esqueci minha senha",
+  "loginCreateAccount": "Criar conta",
+  "loginFailed": "Não foi possível entrar. Verifique suas credenciais e tente novamente.",
+  "validationEmailRequired": "Informe seu email",
+  "validationEmailInvalid": "Informe um email válido",
+  "validationPasswordRequired": "Informe sua senha"
 }

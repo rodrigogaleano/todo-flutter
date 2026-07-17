@@ -1,4 +1,13 @@
 {
   "@@locale": "de",
-  "appTitle": "Aufgaben"
+  "appTitle": "Aufgaben",
+  "loginEmailLabel": "E-Mail",
+  "loginPasswordLabel": "Passwort",
+  "loginSubmit": "Anmelden",
+  "loginForgotPassword": "Passwort vergessen",
+  "loginCreateAccount": "Konto erstellen",
+  "loginFailed": "Anmeldung fehlgeschlagen. Überprüfe deine Anmeldedaten und versuche es erneut.",
+  "validationEmailRequired": "Gib deine E-Mail ein",
+  "validationEmailInvalid": "Gib eine gültige E-Mail ein",
+  "validationPasswordRequired": "Gib dein Passwort ein"
 }
