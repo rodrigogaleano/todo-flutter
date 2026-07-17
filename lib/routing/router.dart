@@ -5,6 +5,8 @@ import 'package:todo_flutter/data/repositories/auth/auth_repository.dart';
 import 'package:todo_flutter/routing/routes.dart';
 import 'package:todo_flutter/ui/auth/login/view_models/login_viewmodel.dart';
 import 'package:todo_flutter/ui/auth/login/widgets/login_screen.dart';
+import 'package:todo_flutter/ui/auth/recover_password/view_models/recover_password_viewmodel.dart';
+import 'package:todo_flutter/ui/auth/recover_password/widgets/recover_password_screen.dart';
 import 'package:todo_flutter/ui/auth/signup/view_models/signup_viewmodel.dart';
 import 'package:todo_flutter/ui/auth/signup/widgets/signup_screen.dart';
 
@@ -44,7 +46,9 @@ GoRouter router(AuthRepository authRepository) {
       ),
       GoRoute(
         path: Routes.recoverPassword,
-        builder: (context, state) => const Placeholder(),
+        builder: (context, state) => RecoverPasswordScreen(
+          viewModel: RecoverPasswordViewModel(context.read()),
+        ),
       ),
     ],
   );

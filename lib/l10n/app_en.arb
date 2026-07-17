@@ -67,5 +67,25 @@
   "signupFailed": "Could not create your account. Please try again.",
   "@signupFailed": {
     "description": "Error shown when sign-up fails"
+  },
+  "recoverTitle": "Recover password.",
+  "@recoverTitle": {
+    "description": "Title of the password recovery screen"
+  },
+  "recoverDescription": "Enter your email and we will send you a link to reset your password.",
+  "@recoverDescription": {
+    "description": "Instructions on the password recovery screen"
+  },
+  "recoverSubmit": "Send",
+  "@recoverSubmit": {
+    "description": "Label of the password recovery button"
+  },
+  "recoverSuccess": "We sent a link to reset your password.",
+  "@recoverSuccess": {
+    "description": "Confirmation shown after the reset email is sent"
+  },
+  "recoverFailed": "Could not send the reset email. Please try again.",
+  "@recoverFailed": {
+    "description": "Error shown when sending the reset email fails"
   }
 }

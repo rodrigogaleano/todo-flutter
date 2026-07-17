@@ -16,5 +16,10 @@
   "signupNameLabel": "Name",
   "signupSubmit": "Konto erstellen",
   "signupHaveAccount": "Ich habe bereits ein Konto",
-  "signupFailed": "Konto konnte nicht erstellt werden. Bitte versuche es erneut."
+  "signupFailed": "Konto konnte nicht erstellt werden. Bitte versuche es erneut.",
+  "recoverTitle": "Passwort zurücksetzen.",
+  "recoverDescription": "Gib deine E-Mail ein und wir senden dir einen Link zum Zurücksetzen deines Passworts.",
+  "recoverSubmit": "Senden",
+  "recoverSuccess": "Wir haben dir einen Link zum Zurücksetzen deines Passworts gesendet.",
+  "recoverFailed": "Die Zurücksetzungs-E-Mail konnte nicht gesendet werden. Bitte versuche es erneut."
 }

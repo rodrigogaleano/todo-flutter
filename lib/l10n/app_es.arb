@@ -16,5 +16,10 @@
   "signupNameLabel": "Nombre",
   "signupSubmit": "Crear cuenta",
   "signupHaveAccount": "Ya tengo una cuenta",
-  "signupFailed": "No se pudo crear tu cuenta. Inténtalo de nuevo."
+  "signupFailed": "No se pudo crear tu cuenta. Inténtalo de nuevo.",
+  "recoverTitle": "Recuperar contraseña.",
+  "recoverDescription": "Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.",
+  "recoverSubmit": "Enviar",
+  "recoverSuccess": "Te enviamos un enlace para restablecer tu contraseña.",
+  "recoverFailed": "No se pudo enviar el correo de recuperación. Inténtalo de nuevo."
 }
