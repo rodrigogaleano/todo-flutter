@@ -9,5 +9,12 @@
   "loginFailed": "Anmeldung fehlgeschlagen. Überprüfe deine Anmeldedaten und versuche es erneut.",
   "validationEmailRequired": "Gib deine E-Mail ein",
   "validationEmailInvalid": "Gib eine gültige E-Mail ein",
-  "validationPasswordRequired": "Gib dein Passwort ein"
+  "validationPasswordRequired": "Gib dein Passwort ein",
+  "validationPasswordMin": "Verwende mindestens 6 Zeichen",
+  "validationNameRequired": "Gib deinen Namen ein",
+  "signupTitle": "Konto erstellen.",
+  "signupNameLabel": "Name",
+  "signupSubmit": "Konto erstellen",
+  "signupHaveAccount": "Ich habe bereits ein Konto",
+  "signupFailed": "Konto konnte nicht erstellt werden. Bitte versuche es erneut."
 }

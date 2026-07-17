@@ -9,5 +9,12 @@
   "loginFailed": "Não foi possível entrar. Verifique suas credenciais e tente novamente.",
   "validationEmailRequired": "Informe seu email",
   "validationEmailInvalid": "Informe um email válido",
-  "validationPasswordRequired": "Informe sua senha"
+  "validationPasswordRequired": "Informe sua senha",
+  "validationPasswordMin": "Use ao menos 6 caracteres",
+  "validationNameRequired": "Informe seu nome",
+  "signupTitle": "Criar conta.",
+  "signupNameLabel": "Nome",
+  "signupSubmit": "Criar conta",
+  "signupHaveAccount": "Já tenho uma conta",
+  "signupFailed": "Não foi possível criar sua conta. Tente novamente."
 }

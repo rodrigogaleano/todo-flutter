@@ -24,6 +24,7 @@ class FakeAuthService implements AuthService {
 
   @override
   Future<Result<void>> register({
+    required String name,
     required String email,
     required String password,
   }) async => result;
@@ -67,6 +68,7 @@ void main() {
     test('register returns Error when the service fails', () async {
       service.result = Result.error(Exception('email in use'));
       final result = await repository.register(
+        name: 'Rodrigo',
         email: 'a@b.com',
         password: 'pw',
       );

@@ -9,5 +9,12 @@
   "loginFailed": "No se pudo iniciar sesión. Verifica tus credenciales e inténtalo de nuevo.",
   "validationEmailRequired": "Ingresa tu correo electrónico",
   "validationEmailInvalid": "Ingresa un correo electrónico válido",
-  "validationPasswordRequired": "Ingresa tu contraseña"
+  "validationPasswordRequired": "Ingresa tu contraseña",
+  "validationPasswordMin": "Usa al menos 6 caracteres",
+  "validationNameRequired": "Ingresa tu nombre",
+  "signupTitle": "Crear cuenta.",
+  "signupNameLabel": "Nombre",
+  "signupSubmit": "Crear cuenta",
+  "signupHaveAccount": "Ya tengo una cuenta",
+  "signupFailed": "No se pudo crear tu cuenta. Inténtalo de nuevo."
 }

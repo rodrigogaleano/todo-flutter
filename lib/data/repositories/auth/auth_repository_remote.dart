@@ -33,10 +33,11 @@ class AuthRepositoryRemote extends AuthRepository {
 
   @override
   Future<Result<void>> register({
+    required String name,
     required String email,
     required String password,
   }) {
-    return _authService.register(email: email, password: password);
+    return _authService.register(name: name, email: email, password: password);
   }
 
   @override

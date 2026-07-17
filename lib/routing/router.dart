@@ -5,6 +5,8 @@ import 'package:todo_flutter/data/repositories/auth/auth_repository.dart';
 import 'package:todo_flutter/routing/routes.dart';
 import 'package:todo_flutter/ui/auth/login/view_models/login_viewmodel.dart';
 import 'package:todo_flutter/ui/auth/login/widgets/login_screen.dart';
+import 'package:todo_flutter/ui/auth/signup/view_models/signup_viewmodel.dart';
+import 'package:todo_flutter/ui/auth/signup/widgets/signup_screen.dart';
 
 /// Rebuilds when [authRepository] notifies so the redirect stays in sync with
 /// auth state. Signup and recover-password are placeholders until their screens
@@ -37,7 +39,8 @@ GoRouter router(AuthRepository authRepository) {
       ),
       GoRoute(
         path: Routes.signup,
-        builder: (context, state) => const Placeholder(),
+        builder: (context, state) =>
+            SignupScreen(viewModel: SignupViewModel(context.read())),
       ),
       GoRoute(
         path: Routes.recoverPassword,

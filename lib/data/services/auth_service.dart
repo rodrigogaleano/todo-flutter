@@ -23,14 +23,16 @@ class AuthService {
   }
 
   Future<Result<void>> register({
+    required String name,
     required String email,
     required String password,
   }) async {
     try {
-      await _auth.createUserWithEmailAndPassword(
+      final credential = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+      await credential.user?.updateDisplayName(name);
       return const Result.ok(null);
     } on Exception catch (error) {
       return Result.error(error);

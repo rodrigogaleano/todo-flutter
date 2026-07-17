@@ -39,5 +39,33 @@
   "validationPasswordRequired": "Enter your password",
   "@validationPasswordRequired": {
     "description": "Validation shown when the password field is empty"
+  },
+  "validationPasswordMin": "Use at least 6 characters",
+  "@validationPasswordMin": {
+    "description": "Validation shown when the password is too short"
+  },
+  "validationNameRequired": "Enter your name",
+  "@validationNameRequired": {
+    "description": "Validation shown when the name field is empty"
+  },
+  "signupTitle": "Create account.",
+  "@signupTitle": {
+    "description": "Title of the sign-up screen"
+  },
+  "signupNameLabel": "Name",
+  "@signupNameLabel": {
+    "description": "Label for the name field on the sign-up screen"
+  },
+  "signupSubmit": "Create account",
+  "@signupSubmit": {
+    "description": "Label of the primary sign-up button"
+  },
+  "signupHaveAccount": "I already have an account",
+  "@signupHaveAccount": {
+    "description": "Link back to the login screen from sign-up"
+  },
+  "signupFailed": "Could not create your account. Please try again.",
+  "@signupFailed": {
+    "description": "Error shown when sign-up fails"
   }
 }
