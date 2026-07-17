@@ -6,6 +6,8 @@
   "loginSubmit": "Entrar",
   "loginForgotPassword": "Esqueci minha senha",
   "loginCreateAccount": "Criar conta",
+  "loginDividerOr": "ou",
+  "loginContinueWithGoogle": "Continuar com Google",
   "loginFailed": "Não foi possível entrar. Verifique suas credenciais e tente novamente.",
   "validationEmailRequired": "Informe seu email",
   "validationEmailInvalid": "Informe um email válido",

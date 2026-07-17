@@ -6,6 +6,7 @@ import 'package:rg_design_system/rg_design_system.dart';
 import 'package:todo_flutter/l10n/generated/app_localizations.dart';
 import 'package:todo_flutter/routing/routes.dart';
 import 'package:todo_flutter/ui/auth/login/view_models/login_viewmodel.dart';
+import 'package:todo_flutter/utils/command.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({required this.viewModel, super.key});
@@ -25,29 +26,36 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     widget.viewModel.login.addListener(_onLoginResult);
+    widget.viewModel.loginWithGoogle.addListener(_onGoogleResult);
   }
 
   @override
   void didUpdateWidget(covariant LoginScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.viewModel.login != widget.viewModel.login) {
+    if (oldWidget.viewModel != widget.viewModel) {
       oldWidget.viewModel.login.removeListener(_onLoginResult);
+      oldWidget.viewModel.loginWithGoogle.removeListener(_onGoogleResult);
       widget.viewModel.login.addListener(_onLoginResult);
+      widget.viewModel.loginWithGoogle.addListener(_onGoogleResult);
     }
   }
 
   @override
   void dispose() {
     widget.viewModel.login.removeListener(_onLoginResult);
+    widget.viewModel.loginWithGoogle.removeListener(_onGoogleResult);
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
+  void _onLoginResult() => _handleResult(widget.viewModel.login);
+
+  void _onGoogleResult() => _handleResult(widget.viewModel.loginWithGoogle);
+
   // Navigation on success is left to the router redirect, which reacts to the
   // auth-state stream. Navigating here would race that state flipping to true.
-  void _onLoginResult() {
-    final command = widget.viewModel.login;
+  void _handleResult(Command<void> command) {
     if (command.error) {
       command.clearResult();
       ScaffoldMessenger.of(context)
@@ -67,6 +75,10 @@ class _LoginScreenState extends State<LoginScreen> {
         (_emailController.text.trim(), _passwordController.text),
       ),
     );
+  }
+
+  void _loginWithGoogle() {
+    unawaited(widget.viewModel.loginWithGoogle.execute());
   }
 
   @override
@@ -111,6 +123,20 @@ class _LoginScreenState extends State<LoginScreen> {
                     );
                   },
                 ),
+                const SizedBox(height: RGSpacing.lg),
+                RGDivider.labeled(label: l10n.loginDividerOr),
+                const SizedBox(height: RGSpacing.lg),
+                ListenableBuilder(
+                  listenable: widget.viewModel.loginWithGoogle,
+                  builder: (context, _) {
+                    final running = widget.viewModel.loginWithGoogle.running;
+                    return RGSocialButton.google(
+                      label: l10n.loginContinueWithGoogle,
+                      onPressed: running ? null : _loginWithGoogle,
+                    );
+                  },
+                ),
+                const SizedBox(height: RGSpacing.sm),
                 RGButton.text(
                   l10n.loginForgotPassword,
                   fullWidth: true,

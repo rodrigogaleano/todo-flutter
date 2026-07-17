@@ -48,6 +48,21 @@ class AuthService {
     }
   }
 
+  Future<Result<void>> signInWithGoogle() async {
+    try {
+      await _auth.signInWithProvider(GoogleAuthProvider());
+      return const Result.ok(null);
+    } on FirebaseAuthException catch (error) {
+      // User dismissing the OAuth sheet is not a failure to surface.
+      if (error.code == 'canceled' || error.code == 'web-context-canceled') {
+        return const Result.ok(null);
+      }
+      return Result.error(error);
+    } on Exception catch (error) {
+      return Result.error(error);
+    }
+  }
+
   Future<Result<void>> signOut() async {
     try {
       await _auth.signOut();

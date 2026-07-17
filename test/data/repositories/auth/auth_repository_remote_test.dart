@@ -30,6 +30,9 @@ class FakeAuthService implements AuthService {
   }) async => result;
 
   @override
+  Future<Result<void>> signInWithGoogle() async => result;
+
+  @override
   Future<Result<void>> sendPasswordResetEmail({required String email}) async =>
       result;
 

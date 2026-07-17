@@ -24,6 +24,14 @@
   "@loginCreateAccount": {
     "description": "Link to the sign-up screen"
   },
+  "loginDividerOr": "or",
+  "@loginDividerOr": {
+    "description": "Separator between email and social sign-in options"
+  },
+  "loginContinueWithGoogle": "Continue with Google",
+  "@loginContinueWithGoogle": {
+    "description": "Label of the Google sign-in button"
+  },
   "loginFailed": "Could not sign in. Check your credentials and try again.",
   "@loginFailed": {
     "description": "Error shown when authentication fails"

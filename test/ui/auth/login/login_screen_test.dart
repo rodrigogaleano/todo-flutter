@@ -66,4 +66,29 @@ void main() {
 
     expect(find.text(loginFailed), findsOneWidget);
   });
+
+  testWidgets('executes Google sign-in when the button is tapped', (
+    tester,
+  ) async {
+    final repository = FakeAuthRepository();
+    await _pumpLoginScreen(tester, LoginViewModel(repository));
+
+    await tester.tap(find.text('Continue with Google'));
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 1));
+
+    expect(repository.loginWithGoogleCallCount, 1);
+  });
+
+  testWidgets('shows a snackbar when Google sign-in fails', (tester) async {
+    final repository = FakeAuthRepository()
+      ..loginWithGoogleResult = Result.error(Exception('google failed'));
+    await _pumpLoginScreen(tester, LoginViewModel(repository));
+
+    await tester.tap(find.text('Continue with Google'));
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 1));
+
+    expect(find.text(loginFailed), findsOneWidget);
+  });
 }

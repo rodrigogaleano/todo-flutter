@@ -41,6 +41,11 @@ class AuthRepositoryRemote extends AuthRepository {
   }
 
   @override
+  Future<Result<void>> loginWithGoogle() {
+    return _authService.signInWithGoogle();
+  }
+
+  @override
   Future<Result<void>> sendPasswordReset({required String email}) {
     return _authService.sendPasswordResetEmail(email: email);
   }

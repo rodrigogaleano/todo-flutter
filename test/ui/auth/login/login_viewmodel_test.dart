@@ -24,4 +24,24 @@ void main() {
 
     expect(viewModel.login.error, isTrue);
   });
+
+  test('loginWithGoogle command completes on success', () async {
+    final repository = FakeAuthRepository();
+    final viewModel = LoginViewModel(repository);
+
+    await viewModel.loginWithGoogle.execute();
+
+    expect(viewModel.loginWithGoogle.completed, isTrue);
+    expect(repository.loginWithGoogleCallCount, 1);
+  });
+
+  test('loginWithGoogle command errors when the repository fails', () async {
+    final repository = FakeAuthRepository()
+      ..loginWithGoogleResult = Result.error(Exception('google failed'));
+    final viewModel = LoginViewModel(repository);
+
+    await viewModel.loginWithGoogle.execute();
+
+    expect(viewModel.loginWithGoogle.error, isTrue);
+  });
 }

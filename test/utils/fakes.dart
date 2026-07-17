@@ -5,9 +5,11 @@ import 'package:todo_flutter/utils/result.dart';
 class FakeAuthRepository extends ChangeNotifier implements AuthRepository {
   Result<void> loginResult = const Result.ok(null);
   Result<void> registerResult = const Result.ok(null);
+  Result<void> loginWithGoogleResult = const Result.ok(null);
   Result<void> sendPasswordResetResult = const Result.ok(null);
   int loginCallCount = 0;
   int registerCallCount = 0;
+  int loginWithGoogleCallCount = 0;
   int sendPasswordResetCallCount = 0;
   bool _isAuthenticated = false;
 
@@ -39,6 +41,16 @@ class FakeAuthRepository extends ChangeNotifier implements AuthRepository {
       notifyListeners();
     }
     return registerResult;
+  }
+
+  @override
+  Future<Result<void>> loginWithGoogle() async {
+    loginWithGoogleCallCount++;
+    if (loginWithGoogleResult is Ok) {
+      _isAuthenticated = true;
+      notifyListeners();
+    }
+    return loginWithGoogleResult;
   }
 
   @override

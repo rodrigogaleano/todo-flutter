@@ -6,6 +6,8 @@
   "loginSubmit": "Anmelden",
   "loginForgotPassword": "Passwort vergessen",
   "loginCreateAccount": "Konto erstellen",
+  "loginDividerOr": "oder",
+  "loginContinueWithGoogle": "Mit Google fortfahren",
   "loginFailed": "Anmeldung fehlgeschlagen. Überprüfe deine Anmeldedaten und versuche es erneut.",
   "validationEmailRequired": "Gib deine E-Mail ein",
   "validationEmailInvalid": "Gib eine gültige E-Mail ein",

@@ -9,8 +9,14 @@ class LoginViewModel {
 
   late final Command1<void, (String, String)> login = Command1(_login);
 
+  late final Command0<void> loginWithGoogle = Command0(_loginWithGoogle);
+
   Future<Result<void>> _login((String, String) credentials) {
     final (email, password) = credentials;
     return _authRepository.login(email: email, password: password);
+  }
+
+  Future<Result<void>> _loginWithGoogle() {
+    return _authRepository.loginWithGoogle();
   }
 }

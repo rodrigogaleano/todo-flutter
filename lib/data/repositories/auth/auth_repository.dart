@@ -16,6 +16,8 @@ abstract class AuthRepository extends ChangeNotifier {
     required String password,
   });
 
+  Future<Result<void>> loginWithGoogle();
+
   Future<Result<void>> sendPasswordReset({required String email});
 
   Future<Result<void>> logout();
