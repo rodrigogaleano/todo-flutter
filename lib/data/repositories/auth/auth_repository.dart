@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:todo_flutter/utils/result.dart';
 
 abstract class AuthRepository extends ChangeNotifier {
-  /// Whether a user is currently signed in.
   bool get isAuthenticated;
 
   Future<Result<void>> login({
