@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rg_design_system/rg_design_system.dart';
 import 'package:todo_flutter/l10n/generated/app_localizations.dart';
-import 'package:todo_flutter/ui/auth/signup/view_models/signup_viewmodel.dart';
+import 'package:todo_flutter/ui/auth/signup/signup_viewmodel.dart';
+import 'package:todo_flutter/ui/core/command_feedback.dart';
+import 'package:todo_flutter/ui/core/validators.dart';
+import 'package:todo_flutter/utils/command.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({required this.viewModel, super.key});
@@ -15,59 +18,31 @@ class SignupScreen extends StatefulWidget {
   State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _SignupScreenState extends State<SignupScreen> with CommandFeedback {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-    widget.viewModel.register.addListener(_onRegisterResult);
-  }
-
-  @override
-  void didUpdateWidget(covariant SignupScreen oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.viewModel.register != widget.viewModel.register) {
-      oldWidget.viewModel.register.removeListener(_onRegisterResult);
-      widget.viewModel.register.addListener(_onRegisterResult);
-    }
-  }
+  List<Command<void>> get feedbackCommands => [widget.viewModel.register];
 
   @override
   void dispose() {
-    widget.viewModel.register.removeListener(_onRegisterResult);
     _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    widget.viewModel.dispose();
     super.dispose();
-  }
-
-  // Navigation on success is left to the router redirect, which reacts to the
-  // auth-state stream. Navigating here would race that state flipping to true.
-  void _onRegisterResult() {
-    final command = widget.viewModel.register;
-    if (command.error) {
-      command.clearResult();
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(
-          SnackBar(content: Text(AppLocalizations.of(context).signupFailed)),
-        );
-    } else if (command.completed) {
-      command.clearResult();
-    }
   }
 
   void _submit() {
     if (!_formKey.currentState!.validate()) return;
     unawaited(
       widget.viewModel.register.execute((
-        _nameController.text.trim(),
-        _emailController.text.trim(),
-        _passwordController.text,
+        name: _nameController.text.trim(),
+        email: _emailController.text.trim(),
+        password: _passwordController.text,
       )),
     );
   }
@@ -103,7 +78,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   label: l10n.signupNameLabel,
                   textCapitalization: TextCapitalization.words,
                   textInputAction: TextInputAction.next,
-                  validator: _validateName,
+                  validator: Validators.required(l10n.validationNameRequired),
                 ),
                 const SizedBox(height: RGSpacing.md),
                 RGTextField.outlined(
@@ -111,7 +86,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   label: l10n.loginEmailLabel,
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
-                  validator: _validateEmail,
+                  validator: Validators.email(l10n),
                 ),
                 const SizedBox(height: RGSpacing.md),
                 RGPasswordField.outlined(
@@ -119,7 +94,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   label: l10n.loginPasswordLabel,
                   textInputAction: TextInputAction.done,
                   onFieldSubmitted: (_) => _submit(),
-                  validator: _validatePassword,
+                  validator: Validators.password(l10n, minLength: 6),
                 ),
                 const SizedBox(height: RGSpacing.xl),
                 ListenableBuilder(
@@ -147,29 +122,5 @@ class _SignupScreenState extends State<SignupScreen> {
         ),
       ),
     );
-  }
-
-  String? _validateName(String? value) {
-    if (value == null || value.trim().isEmpty) {
-      return AppLocalizations.of(context).validationNameRequired;
-    }
-    return null;
-  }
-
-  String? _validateEmail(String? value) {
-    final l10n = AppLocalizations.of(context);
-    final email = value?.trim() ?? '';
-    if (email.isEmpty) return l10n.validationEmailRequired;
-    if (!RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(email)) {
-      return l10n.validationEmailInvalid;
-    }
-    return null;
-  }
-
-  String? _validatePassword(String? value) {
-    final l10n = AppLocalizations.of(context);
-    if (value == null || value.isEmpty) return l10n.validationPasswordRequired;
-    if (value.length < 6) return l10n.validationPasswordMin;
-    return null;
   }
 }

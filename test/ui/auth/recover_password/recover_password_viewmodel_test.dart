@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:todo_flutter/ui/auth/recover_password/view_models/recover_password_viewmodel.dart';
+import 'package:todo_flutter/ui/auth/recover_password/recover_password_viewmodel.dart';
 import 'package:todo_flutter/utils/result.dart';
 
 import '../../../utils/fakes.dart';

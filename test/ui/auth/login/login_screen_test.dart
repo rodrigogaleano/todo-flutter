@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rg_design_system/rg_design_system.dart';
+import 'package:todo_flutter/domain/auth/auth_failure.dart';
 import 'package:todo_flutter/l10n/generated/app_localizations.dart';
-import 'package:todo_flutter/ui/auth/login/view_models/login_viewmodel.dart';
-import 'package:todo_flutter/ui/auth/login/widgets/login_screen.dart';
+import 'package:todo_flutter/ui/auth/login/login_screen.dart';
+import 'package:todo_flutter/ui/auth/login/login_viewmodel.dart';
 import 'package:todo_flutter/utils/result.dart';
 
 import '../../../utils/fakes.dart';
@@ -23,8 +24,7 @@ Future<void> _pumpLoginScreen(
 }
 
 void main() {
-  const loginFailed =
-      'Could not sign in. Check your credentials and try again.';
+  const loginFailed = 'Incorrect email or password.';
 
   testWidgets('blocks submit and shows validation on empty fields', (
     tester,
@@ -55,7 +55,9 @@ void main() {
 
   testWidgets('shows a snackbar when login fails', (tester) async {
     final repository = FakeAuthRepository()
-      ..loginResult = Result.error(Exception('bad credentials'));
+      ..loginResult = const Result.error(
+        AuthException(AuthFailure.invalidCredentials),
+      );
     await _pumpLoginScreen(tester, LoginViewModel(repository));
 
     await tester.enterText(find.byType(TextFormField).at(0), 'a@b.com');
@@ -82,7 +84,9 @@ void main() {
 
   testWidgets('shows a snackbar when Google sign-in fails', (tester) async {
     final repository = FakeAuthRepository()
-      ..loginWithGoogleResult = Result.error(Exception('google failed'));
+      ..loginWithGoogleResult = const Result.error(
+        AuthException(AuthFailure.invalidCredentials),
+      );
     await _pumpLoginScreen(tester, LoginViewModel(repository));
 
     await tester.tap(find.text('Continue with Google'));

@@ -12,4 +12,8 @@ class RecoverPasswordViewModel {
   Future<Result<void>> _sendReset(String email) {
     return _authRepository.sendPasswordReset(email: email);
   }
+
+  void dispose() {
+    sendReset.dispose();
+  }
 }

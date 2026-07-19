@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rg_design_system/rg_design_system.dart';
 import 'package:todo_flutter/l10n/generated/app_localizations.dart';
-import 'package:todo_flutter/ui/auth/recover_password/view_models/recover_password_viewmodel.dart';
+import 'package:todo_flutter/ui/auth/recover_password/recover_password_viewmodel.dart';
+import 'package:todo_flutter/ui/core/command_feedback.dart';
+import 'package:todo_flutter/ui/core/validators.dart';
+import 'package:todo_flutter/utils/command.dart';
 
 class RecoverPasswordScreen extends StatefulWidget {
   const RecoverPasswordScreen({required this.viewModel, super.key});
@@ -15,48 +18,24 @@ class RecoverPasswordScreen extends StatefulWidget {
   State<RecoverPasswordScreen> createState() => _RecoverPasswordScreenState();
 }
 
-class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
+class _RecoverPasswordScreenState extends State<RecoverPasswordScreen>
+    with CommandFeedback {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-    widget.viewModel.sendReset.addListener(_onResult);
-  }
+  List<Command<void>> get feedbackCommands => [widget.viewModel.sendReset];
 
   @override
-  void didUpdateWidget(covariant RecoverPasswordScreen oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.viewModel.sendReset != widget.viewModel.sendReset) {
-      oldWidget.viewModel.sendReset.removeListener(_onResult);
-      widget.viewModel.sendReset.addListener(_onResult);
-    }
+  void onCommandSuccess(Command<void> command) {
+    showSnackBar(context, AppLocalizations.of(context).recoverSuccess);
   }
 
   @override
   void dispose() {
-    widget.viewModel.sendReset.removeListener(_onResult);
     _emailController.dispose();
+    widget.viewModel.dispose();
     super.dispose();
-  }
-
-  void _onResult() {
-    final command = widget.viewModel.sendReset;
-    final l10n = AppLocalizations.of(context);
-    if (command.error) {
-      command.clearResult();
-      _showSnackBar(l10n.recoverFailed);
-    } else if (command.completed) {
-      command.clearResult();
-      _showSnackBar(l10n.recoverSuccess);
-    }
-  }
-
-  void _showSnackBar(String message) {
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text(message)));
   }
 
   void _submit() {
@@ -102,7 +81,7 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.done,
                   onFieldSubmitted: (_) => _submit(),
-                  validator: _validateEmail,
+                  validator: Validators.email(l10n),
                 ),
                 const SizedBox(height: RGSpacing.xl),
                 ListenableBuilder(
@@ -123,15 +102,5 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
         ),
       ),
     );
-  }
-
-  String? _validateEmail(String? value) {
-    final l10n = AppLocalizations.of(context);
-    final email = value?.trim() ?? '';
-    if (email.isEmpty) return l10n.validationEmailRequired;
-    if (!RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(email)) {
-      return l10n.validationEmailInvalid;
-    }
-    return null;
   }
 }

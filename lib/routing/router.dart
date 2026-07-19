@@ -3,32 +3,33 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_flutter/data/repositories/auth/auth_repository.dart';
 import 'package:todo_flutter/routing/routes.dart';
-import 'package:todo_flutter/ui/auth/login/view_models/login_viewmodel.dart';
-import 'package:todo_flutter/ui/auth/login/widgets/login_screen.dart';
-import 'package:todo_flutter/ui/auth/recover_password/view_models/recover_password_viewmodel.dart';
-import 'package:todo_flutter/ui/auth/recover_password/widgets/recover_password_screen.dart';
-import 'package:todo_flutter/ui/auth/signup/view_models/signup_viewmodel.dart';
-import 'package:todo_flutter/ui/auth/signup/widgets/signup_screen.dart';
+import 'package:todo_flutter/ui/auth/login/login_screen.dart';
+import 'package:todo_flutter/ui/auth/login/login_viewmodel.dart';
+import 'package:todo_flutter/ui/auth/recover_password/recover_password_screen.dart';
+import 'package:todo_flutter/ui/auth/recover_password/recover_password_viewmodel.dart';
+import 'package:todo_flutter/ui/auth/signup/signup_screen.dart';
+import 'package:todo_flutter/ui/auth/signup/signup_viewmodel.dart';
 
-/// Rebuilds when [authRepository] notifies so the redirect stays in sync with
-/// auth state. Signup and recover-password are placeholders until their screens
-/// land; `/` is the temporary authenticated home.
+String? authRedirect({
+  required bool isAuthenticated,
+  required String location,
+}) {
+  const authArea = {Routes.login, Routes.signup, Routes.recoverPassword};
+  final inAuthArea = authArea.contains(location);
+
+  if (!isAuthenticated) return inAuthArea ? null : Routes.login;
+  if (inAuthArea) return Routes.home;
+  return null;
+}
+
 GoRouter router(AuthRepository authRepository) {
   return GoRouter(
     initialLocation: Routes.home,
     refreshListenable: authRepository,
-    redirect: (context, state) {
-      final loggedIn = authRepository.isAuthenticated;
-      final inAuthArea = {
-        Routes.login,
-        Routes.signup,
-        Routes.recoverPassword,
-      }.contains(state.matchedLocation);
-
-      if (!loggedIn) return inAuthArea ? null : Routes.login;
-      if (inAuthArea) return Routes.home;
-      return null;
-    },
+    redirect: (context, state) => authRedirect(
+      isAuthenticated: authRepository.isAuthenticated,
+      location: state.matchedLocation,
+    ),
     routes: [
       GoRoute(
         path: Routes.home,

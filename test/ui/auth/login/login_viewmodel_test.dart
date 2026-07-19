@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:todo_flutter/ui/auth/login/view_models/login_viewmodel.dart';
+import 'package:todo_flutter/ui/auth/login/login_viewmodel.dart';
 import 'package:todo_flutter/utils/result.dart';
 
 import '../../../utils/fakes.dart';
@@ -9,7 +9,7 @@ void main() {
     final repository = FakeAuthRepository();
     final viewModel = LoginViewModel(repository);
 
-    await viewModel.login.execute(('a@b.com', 'pw'));
+    await viewModel.login.execute((email: 'a@b.com', password: 'pw'));
 
     expect(viewModel.login.completed, isTrue);
     expect(repository.loginCallCount, 1);
@@ -20,7 +20,7 @@ void main() {
       ..loginResult = Result.error(Exception('bad credentials'));
     final viewModel = LoginViewModel(repository);
 
-    await viewModel.login.execute(('a@b.com', 'pw'));
+    await viewModel.login.execute((email: 'a@b.com', password: 'pw'));
 
     expect(viewModel.login.error, isTrue);
   });

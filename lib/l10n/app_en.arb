@@ -4,6 +4,10 @@
   "@appTitle": {
     "description": "Application title"
   },
+  "loginTitle": "Todo.",
+  "@loginTitle": {
+    "description": "App wordmark shown at the top of the login screen"
+  },
   "loginEmailLabel": "Email",
   "@loginEmailLabel": {
     "description": "Label for the email field on the login screen"
@@ -31,10 +35,6 @@
   "loginContinueWithGoogle": "Continue with Google",
   "@loginContinueWithGoogle": {
     "description": "Label of the Google sign-in button"
-  },
-  "loginFailed": "Could not sign in. Check your credentials and try again.",
-  "@loginFailed": {
-    "description": "Error shown when authentication fails"
   },
   "validationEmailRequired": "Enter your email",
   "@validationEmailRequired": {
@@ -72,10 +72,6 @@
   "@signupHaveAccount": {
     "description": "Link back to the login screen from sign-up"
   },
-  "signupFailed": "Could not create your account. Please try again.",
-  "@signupFailed": {
-    "description": "Error shown when sign-up fails"
-  },
   "recoverTitle": "Recover password.",
   "@recoverTitle": {
     "description": "Title of the password recovery screen"
@@ -91,10 +87,6 @@
   "recoverSuccess": "We sent a link to reset your password.",
   "@recoverSuccess": {
     "description": "Confirmation shown after the reset email is sent"
-  },
-  "recoverFailed": "Could not send the reset email. Please try again.",
-  "@recoverFailed": {
-    "description": "Error shown when sending the reset email fails"
   },
   "authErrorInvalidCredentials": "Incorrect email or password.",
   "@authErrorInvalidCredentials": {

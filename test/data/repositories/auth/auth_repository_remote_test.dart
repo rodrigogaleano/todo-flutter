@@ -8,7 +8,6 @@ import 'package:todo_flutter/utils/result.dart';
 class FakeAuthService implements AuthService {
   final StreamController<bool> _controller = StreamController<bool>.broadcast();
 
-  /// Result returned by every action.
   Result<void> result = const Result.ok(null);
 
   void emitAuthState({required bool value}) => _controller.add(value);
@@ -86,6 +85,13 @@ void main() {
     test('logout returns Ok on success', () async {
       final result = await repository.logout();
       expect(result, isA<Ok<void>>());
+    });
+
+    test('loginWithGoogle forwards the service result', () async {
+      expect(await repository.loginWithGoogle(), isA<Ok<void>>());
+
+      service.result = Result.error(Exception('google failed'));
+      expect(await repository.loginWithGoogle(), isA<Error<void>>());
     });
   });
 
