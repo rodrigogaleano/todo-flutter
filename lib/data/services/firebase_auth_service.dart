@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:todo_flutter/data/services/auth_service.dart';
 import 'package:todo_flutter/domain/auth/auth_failure.dart';
 import 'package:todo_flutter/utils/result.dart';
@@ -9,7 +10,7 @@ class FirebaseAuthService implements AuthService {
 
   final FirebaseAuth _auth;
 
-  static const _cancelCodes = {'canceled', 'web-context-canceled'};
+  Future<void>? _googleInitialization;
 
   @override
   Stream<bool> get authStateChanges =>
@@ -41,11 +42,25 @@ class FirebaseAuthService implements AuthService {
   }
 
   @override
-  Future<Result<void>> signInWithGoogle() {
-    return _guard(
-      () => _auth.signInWithProvider(GoogleAuthProvider()),
-      ignoreCodes: _cancelCodes,
-    );
+  Future<Result<void>> signInWithGoogle() async {
+    try {
+      await (_googleInitialization ??= GoogleSignIn.instance.initialize());
+      final account = await GoogleSignIn.instance.authenticate();
+      final credential = GoogleAuthProvider.credential(
+        idToken: account.authentication.idToken,
+      );
+      await _auth.signInWithCredential(credential);
+      return const Result.ok(null);
+    } on GoogleSignInException catch (error) {
+      if (error.code == GoogleSignInExceptionCode.canceled) {
+        return const Result.ok(null);
+      }
+      return const Result.error(AuthException(AuthFailure.unknown));
+    } on FirebaseAuthException catch (error) {
+      return Result.error(AuthException(_mapCode(error.code)));
+    } on Exception {
+      return const Result.error(AuthException(AuthFailure.unknown));
+    }
   }
 
   @override
@@ -56,15 +71,11 @@ class FirebaseAuthService implements AuthService {
   @override
   Future<Result<void>> signOut() => _guard(_auth.signOut);
 
-  Future<Result<void>> _guard(
-    Future<void> Function() action, {
-    Set<String> ignoreCodes = const {},
-  }) async {
+  Future<Result<void>> _guard(Future<void> Function() action) async {
     try {
       await action();
       return const Result.ok(null);
     } on FirebaseAuthException catch (error) {
-      if (ignoreCodes.contains(error.code)) return const Result.ok(null);
       return Result.error(AuthException(_mapCode(error.code)));
     } on Exception {
       return const Result.error(AuthException(AuthFailure.unknown));
