@@ -95,5 +95,41 @@
   "recoverFailed": "Could not send the reset email. Please try again.",
   "@recoverFailed": {
     "description": "Error shown when sending the reset email fails"
+  },
+  "authErrorInvalidCredentials": "Incorrect email or password.",
+  "@authErrorInvalidCredentials": {
+    "description": "Auth error: wrong email/password combination"
+  },
+  "authErrorEmailInUse": "This email is already registered.",
+  "@authErrorEmailInUse": {
+    "description": "Auth error: email already has an account"
+  },
+  "authErrorInvalidEmail": "Enter a valid email.",
+  "@authErrorInvalidEmail": {
+    "description": "Auth error: malformed email"
+  },
+  "authErrorWeakPassword": "This password is too weak.",
+  "@authErrorWeakPassword": {
+    "description": "Auth error: password does not meet requirements"
+  },
+  "authErrorUserNotFound": "No account found for this email.",
+  "@authErrorUserNotFound": {
+    "description": "Auth error: no user for the given email"
+  },
+  "authErrorUserDisabled": "This account has been disabled.",
+  "@authErrorUserDisabled": {
+    "description": "Auth error: account disabled"
+  },
+  "authErrorNetwork": "No connection. Check your internet and try again.",
+  "@authErrorNetwork": {
+    "description": "Auth error: network request failed"
+  },
+  "authErrorTooManyRequests": "Too many attempts. Try again later.",
+  "@authErrorTooManyRequests": {
+    "description": "Auth error: rate limited"
+  },
+  "authErrorUnknown": "Something went wrong. Please try again.",
+  "@authErrorUnknown": {
+    "description": "Auth error: generic fallback"
   }
 }

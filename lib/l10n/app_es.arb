@@ -23,5 +23,14 @@
   "recoverDescription": "Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.",
   "recoverSubmit": "Enviar",
   "recoverSuccess": "Te enviamos un enlace para restablecer tu contraseña.",
-  "recoverFailed": "No se pudo enviar el correo de recuperación. Inténtalo de nuevo."
+  "recoverFailed": "No se pudo enviar el correo de recuperación. Inténtalo de nuevo.",
+  "authErrorInvalidCredentials": "Correo o contraseña incorrectos.",
+  "authErrorEmailInUse": "Este correo ya está registrado.",
+  "authErrorInvalidEmail": "Ingresa un correo electrónico válido.",
+  "authErrorWeakPassword": "Esta contraseña es muy débil.",
+  "authErrorUserNotFound": "No se encontró ninguna cuenta para este correo.",
+  "authErrorUserDisabled": "Esta cuenta ha sido deshabilitada.",
+  "authErrorNetwork": "Sin conexión. Verifica tu internet e inténtalo de nuevo.",
+  "authErrorTooManyRequests": "Demasiados intentos. Inténtalo más tarde.",
+  "authErrorUnknown": "Algo salió mal. Inténtalo de nuevo."
 }

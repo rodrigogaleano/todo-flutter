@@ -23,5 +23,14 @@
   "recoverDescription": "Digite seu email e enviaremos um link para você redefinir sua senha.",
   "recoverSubmit": "Enviar",
   "recoverSuccess": "Enviamos um link para você redefinir sua senha.",
-  "recoverFailed": "Não foi possível enviar o email de recuperação. Tente novamente."
+  "recoverFailed": "Não foi possível enviar o email de recuperação. Tente novamente.",
+  "authErrorInvalidCredentials": "Email ou senha incorretos.",
+  "authErrorEmailInUse": "Este email já está cadastrado.",
+  "authErrorInvalidEmail": "Informe um email válido.",
+  "authErrorWeakPassword": "Esta senha é muito fraca.",
+  "authErrorUserNotFound": "Nenhuma conta encontrada para este email.",
+  "authErrorUserDisabled": "Esta conta foi desativada.",
+  "authErrorNetwork": "Sem conexão. Verifique sua internet e tente novamente.",
+  "authErrorTooManyRequests": "Muitas tentativas. Tente novamente mais tarde.",
+  "authErrorUnknown": "Algo deu errado. Tente novamente."
 }
