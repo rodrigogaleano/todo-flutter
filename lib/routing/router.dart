@@ -55,7 +55,7 @@ GoRouter router(AuthRepository authRepository) {
   );
 }
 
-// TODO: Temporary home for logout until the real home screen exists.
+// Temporary home for logout until the real home screen exists.
 class _TempHomeScreen extends StatelessWidget {
   const _TempHomeScreen();
 
