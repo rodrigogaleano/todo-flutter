@@ -33,7 +33,7 @@ GoRouter router(AuthRepository authRepository) {
     routes: [
       GoRoute(
         path: Routes.home,
-        builder: (context, state) => const Placeholder(),
+        builder: (context, state) => const _TempHomeScreen(),
       ),
       GoRoute(
         path: Routes.login,
@@ -53,4 +53,21 @@ GoRouter router(AuthRepository authRepository) {
       ),
     ],
   );
+}
+
+// TODO: Temporary home for logout until the real home screen exists.
+class _TempHomeScreen extends StatelessWidget {
+  const _TempHomeScreen();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: const Placeholder(),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => context.read<AuthRepository>().logout(),
+        label: const Text('Logout'),
+        icon: const Icon(Icons.logout),
+      ),
+    );
+  }
 }

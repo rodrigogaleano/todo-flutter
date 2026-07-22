@@ -6,6 +6,7 @@ import 'package:rg_design_system/rg_design_system.dart';
 import 'package:todo_flutter/l10n/generated/app_localizations.dart';
 import 'package:todo_flutter/routing/routes.dart';
 import 'package:todo_flutter/ui/auth/login/login_viewmodel.dart';
+import 'package:todo_flutter/ui/core/app_scaffold.dart';
 import 'package:todo_flutter/ui/core/command_feedback.dart';
 import 'package:todo_flutter/ui/core/validators.dart';
 import 'package:todo_flutter/utils/command.dart';
@@ -55,74 +56,69 @@ class _LoginScreenState extends State<LoginScreen> with CommandFeedback {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(RGSpacing.lg),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                RGText.h1(l10n.loginTitle),
-                const Spacer(),
-                RGTextField.outlined(
-                  controller: _emailController,
-                  label: l10n.loginEmailLabel,
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.next,
-                  validator: Validators.email(l10n),
-                ),
-                const SizedBox(height: RGSpacing.md),
-                RGPasswordField.outlined(
-                  controller: _passwordController,
-                  label: l10n.loginPasswordLabel,
-                  textInputAction: TextInputAction.done,
-                  onFieldSubmitted: (_) => _submit(),
-                  validator: Validators.password(l10n),
-                ),
-                const SizedBox(height: RGSpacing.xl),
-                ListenableBuilder(
-                  listenable: widget.viewModel.login,
-                  builder: (context, _) {
-                    final running = widget.viewModel.login.running;
-                    return RGButton.filled(
-                      l10n.loginSubmit,
-                      fullWidth: true,
-                      isLoading: running,
-                      onPressed: running ? null : _submit,
-                    );
-                  },
-                ),
-                const SizedBox(height: RGSpacing.lg),
-                RGDivider.labeled(label: l10n.loginDividerOr),
-                const SizedBox(height: RGSpacing.lg),
-                ListenableBuilder(
-                  listenable: widget.viewModel.loginWithGoogle,
-                  builder: (context, _) {
-                    final running = widget.viewModel.loginWithGoogle.running;
-                    return RGSocialButton.google(
-                      label: l10n.loginContinueWithGoogle,
-                      onPressed: running ? null : _loginWithGoogle,
-                    );
-                  },
-                ),
-                const SizedBox(height: RGSpacing.sm),
-                RGButton.text(
-                  l10n.loginForgotPassword,
-                  fullWidth: true,
-                  onPressed: () => context.push(Routes.recoverPassword),
-                ),
-                const Spacer(),
-                Center(
-                  child: RGButton.text(
-                    l10n.loginCreateAccount,
-                    onPressed: () => context.push(Routes.signup),
-                  ),
-                ),
-              ],
+    return AppScaffold(
+      child: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            RGText.h1(l10n.loginTitle),
+            const Spacer(),
+            RGTextField.outlined(
+              controller: _emailController,
+              label: l10n.loginEmailLabel,
+              keyboardType: TextInputType.emailAddress,
+              textInputAction: TextInputAction.next,
+              validator: Validators.email(l10n),
             ),
-          ),
+            const SizedBox(height: RGSpacing.md),
+            RGPasswordField.outlined(
+              controller: _passwordController,
+              label: l10n.loginPasswordLabel,
+              textInputAction: TextInputAction.done,
+              onFieldSubmitted: (_) => _submit(),
+              validator: Validators.password(l10n),
+            ),
+            const SizedBox(height: RGSpacing.xl),
+            ListenableBuilder(
+              listenable: widget.viewModel.login,
+              builder: (context, _) {
+                final running = widget.viewModel.login.running;
+                return RGButton.filled(
+                  l10n.loginSubmit,
+                  fullWidth: true,
+                  isLoading: running,
+                  onPressed: running ? null : _submit,
+                );
+              },
+            ),
+            const SizedBox(height: RGSpacing.lg),
+            RGDivider.labeled(label: l10n.loginDividerOr),
+            const SizedBox(height: RGSpacing.lg),
+            ListenableBuilder(
+              listenable: widget.viewModel.loginWithGoogle,
+              builder: (context, _) {
+                final running = widget.viewModel.loginWithGoogle.running;
+                return RGSocialButton.google(
+                  label: l10n.loginContinueWithGoogle,
+                  onPressed: running ? null : _loginWithGoogle,
+                );
+              },
+            ),
+            const SizedBox(height: RGSpacing.sm),
+            RGButton.text(
+              l10n.loginForgotPassword,
+              fullWidth: true,
+              onPressed: () => context.push(Routes.recoverPassword),
+            ),
+            const Spacer(),
+            Center(
+              child: RGButton.text(
+                l10n.loginCreateAccount,
+                onPressed: () => context.push(Routes.signup),
+              ),
+            ),
+          ],
         ),
       ),
     );
