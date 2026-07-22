@@ -3,5 +3,125 @@
   "appTitle": "Todo",
   "@appTitle": {
     "description": "Application title"
+  },
+  "loginTitle": "Todo.",
+  "@loginTitle": {
+    "description": "App wordmark shown at the top of the login screen"
+  },
+  "loginEmailLabel": "Email",
+  "@loginEmailLabel": {
+    "description": "Label for the email field on the login screen"
+  },
+  "loginPasswordLabel": "Password",
+  "@loginPasswordLabel": {
+    "description": "Label for the password field on the login screen"
+  },
+  "loginSubmit": "Sign in",
+  "@loginSubmit": {
+    "description": "Label of the primary login button"
+  },
+  "loginForgotPassword": "Forgot my password",
+  "@loginForgotPassword": {
+    "description": "Link to the password recovery screen"
+  },
+  "loginCreateAccount": "Create account",
+  "@loginCreateAccount": {
+    "description": "Link to the sign-up screen"
+  },
+  "loginDividerOr": "or",
+  "@loginDividerOr": {
+    "description": "Separator between email and social sign-in options"
+  },
+  "loginContinueWithGoogle": "Continue with Google",
+  "@loginContinueWithGoogle": {
+    "description": "Label of the Google sign-in button"
+  },
+  "validationEmailRequired": "Enter your email",
+  "@validationEmailRequired": {
+    "description": "Validation shown when the email field is empty"
+  },
+  "validationEmailInvalid": "Enter a valid email",
+  "@validationEmailInvalid": {
+    "description": "Validation shown when the email format is invalid"
+  },
+  "validationPasswordRequired": "Enter your password",
+  "@validationPasswordRequired": {
+    "description": "Validation shown when the password field is empty"
+  },
+  "validationPasswordMin": "Use at least 6 characters",
+  "@validationPasswordMin": {
+    "description": "Validation shown when the password is too short"
+  },
+  "validationNameRequired": "Enter your name",
+  "@validationNameRequired": {
+    "description": "Validation shown when the name field is empty"
+  },
+  "signupTitle": "Create account.",
+  "@signupTitle": {
+    "description": "Title of the sign-up screen"
+  },
+  "signupNameLabel": "Name",
+  "@signupNameLabel": {
+    "description": "Label for the name field on the sign-up screen"
+  },
+  "signupSubmit": "Create account",
+  "@signupSubmit": {
+    "description": "Label of the primary sign-up button"
+  },
+  "signupHaveAccount": "I already have an account",
+  "@signupHaveAccount": {
+    "description": "Link back to the login screen from sign-up"
+  },
+  "recoverTitle": "Recover password.",
+  "@recoverTitle": {
+    "description": "Title of the password recovery screen"
+  },
+  "recoverDescription": "Enter your email and we will send you a link to reset your password.",
+  "@recoverDescription": {
+    "description": "Instructions on the password recovery screen"
+  },
+  "recoverSubmit": "Send",
+  "@recoverSubmit": {
+    "description": "Label of the password recovery button"
+  },
+  "recoverSuccess": "We sent a link to reset your password.",
+  "@recoverSuccess": {
+    "description": "Confirmation shown after the reset email is sent"
+  },
+  "authErrorInvalidCredentials": "Incorrect email or password.",
+  "@authErrorInvalidCredentials": {
+    "description": "Auth error: wrong email/password combination"
+  },
+  "authErrorEmailInUse": "This email is already registered.",
+  "@authErrorEmailInUse": {
+    "description": "Auth error: email already has an account"
+  },
+  "authErrorInvalidEmail": "Enter a valid email.",
+  "@authErrorInvalidEmail": {
+    "description": "Auth error: malformed email"
+  },
+  "authErrorWeakPassword": "This password is too weak.",
+  "@authErrorWeakPassword": {
+    "description": "Auth error: password does not meet requirements"
+  },
+  "authErrorUserNotFound": "No account found for this email.",
+  "@authErrorUserNotFound": {
+    "description": "Auth error: no user for the given email"
+  },
+  "authErrorUserDisabled": "This account has been disabled.",
+  "@authErrorUserDisabled": {
+    "description": "Auth error: account disabled"
+  },
+  "authErrorNetwork": "No connection. Check your internet and try again.",
+  "@authErrorNetwork": {
+    "description": "Auth error: network request failed"
+  },
+  "authErrorTooManyRequests": "Too many attempts. Try again later.",
+  "@authErrorTooManyRequests": {
+    "description": "Auth error: rate limited"
+  },
+  "authErrorUnknown": "Something went wrong. Please try again.",
+  "@authErrorUnknown": {
+    "description": "Auth error: generic fallback"
   }
 }
