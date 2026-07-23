@@ -87,12 +87,41 @@ class FakeTaskRepository implements TaskRepository {
   final StreamController<List<Task>> _controller =
       StreamController<List<Task>>.broadcast();
 
+  Result<void> createTaskResult = const Result.ok(null);
+  Result<void> setTaskDoneResult = const Result.ok(null);
+  Result<void> deleteTaskResult = const Result.ok(null);
+
+  final List<String> createdTitles = [];
+  final List<(String, bool)> setDoneCalls = [];
+  final List<String> deletedIds = [];
+
   void emit(List<Task> tasks) => _controller.add(tasks);
 
   void emitError(Object error) => _controller.addError(error);
 
   @override
   Stream<List<Task>> watchTasks() => _controller.stream;
+
+  @override
+  Future<Result<void>> createTask(String title) async {
+    createdTitles.add(title);
+    return createTaskResult;
+  }
+
+  @override
+  Future<Result<void>> setTaskDone(
+    String taskId, {
+    required bool isDone,
+  }) async {
+    setDoneCalls.add((taskId, isDone));
+    return setTaskDoneResult;
+  }
+
+  @override
+  Future<Result<void>> deleteTask(String taskId) async {
+    deletedIds.add(taskId);
+    return deleteTaskResult;
+  }
 
   Future<void> dispose() => _controller.close();
 }
