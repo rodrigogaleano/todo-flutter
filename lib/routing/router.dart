@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_flutter/data/repositories/auth/auth_repository.dart';
@@ -54,10 +53,6 @@ GoRouter router(AuthRepository authRepository) {
         builder: (context, state) => RecoverPasswordScreen(
           viewModel: RecoverPasswordViewModel(context.read()),
         ),
-      ),
-      GoRoute(
-        path: Routes.createTask,
-        builder: (context, state) => const Placeholder(),
       ),
     ],
   );

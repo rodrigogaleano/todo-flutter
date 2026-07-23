@@ -5,6 +5,7 @@ import 'package:todo_flutter/data/repositories/auth/auth_repository.dart';
 import 'package:todo_flutter/data/repositories/task/task_repository.dart';
 import 'package:todo_flutter/domain/models/task/task.dart';
 import 'package:todo_flutter/utils/command.dart';
+import 'package:todo_flutter/utils/result.dart';
 
 class HomeViewModel extends ChangeNotifier {
   HomeViewModel(this._taskRepository, this._authRepository) {
@@ -19,7 +20,12 @@ class HomeViewModel extends ChangeNotifier {
   final AuthRepository _authRepository;
 
   late final Command0<void> logout;
+  late final Command1<void, String> createTask = Command1(_createTask);
   late final StreamSubscription<List<Task>> _subscription;
+
+  Future<Result<void>> _createTask(String title) {
+    return _taskRepository.createTask(title.trim());
+  }
 
   List<Task> _tasks = const [];
   List<Task> get tasks => _tasks;
@@ -72,6 +78,7 @@ class HomeViewModel extends ChangeNotifier {
   void dispose() {
     unawaited(_subscription.cancel());
     logout.dispose();
+    createTask.dispose();
     super.dispose();
   }
 }

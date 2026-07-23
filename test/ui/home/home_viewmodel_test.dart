@@ -73,4 +73,9 @@ void main() {
     await viewModel.logout.execute();
     expect(authRepository.logoutCallCount, 1);
   });
+
+  test('createTask forwards the trimmed title to the repository', () async {
+    await viewModel.createTask.execute('  Buy milk  ');
+    expect(taskRepository.createdTitles, ['Buy milk']);
+  });
 }

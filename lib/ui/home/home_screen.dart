@@ -1,13 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:rg_design_system/rg_design_system.dart';
 import 'package:todo_flutter/domain/models/task/task.dart';
 import 'package:todo_flutter/l10n/generated/app_localizations.dart';
-import 'package:todo_flutter/routing/routes.dart';
 import 'package:todo_flutter/ui/core/command_feedback.dart';
 import 'package:todo_flutter/ui/home/home_viewmodel.dart';
+import 'package:todo_flutter/ui/home/widgets/create_task_form.dart';
 import 'package:todo_flutter/utils/command.dart';
 
 const double _kHomeDesktopBreakpoint = 840;
@@ -35,6 +34,33 @@ class _HomeScreenState extends State<HomeScreen> with CommandFeedback {
 
   void _logout() => unawaited(widget.viewModel.logout.execute());
 
+  void _openCreateTask() {
+    final isWide = MediaQuery.sizeOf(context).width >= _kHomeDesktopBreakpoint;
+    if (isWide) {
+      unawaited(
+        showDialog<void>(
+          context: context,
+          builder: (_) => CreateTaskForm(
+            createTask: widget.viewModel.createTask,
+            layout: CreateTaskLayout.dialog,
+          ),
+        ),
+      );
+    } else {
+      unawaited(
+        showModalBottomSheet<void>(
+          context: context,
+          isScrollControlled: true,
+          shape: const RoundedRectangleBorder(),
+          builder: (_) => CreateTaskForm(
+            createTask: widget.viewModel.createTask,
+            layout: CreateTaskLayout.sheet,
+          ),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
@@ -43,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> with CommandFeedback {
       floatingActionButton: isWide
           ? null
           : FloatingActionButton(
-              onPressed: () => context.push(Routes.createTask),
+              onPressed: _openCreateTask,
               shape: const RoundedRectangleBorder(),
               backgroundColor: colors.onSurface,
               foregroundColor: colors.surface,
@@ -105,6 +131,8 @@ class _HomeScreenState extends State<HomeScreen> with CommandFeedback {
                   children: [
                     RGText.h2(l10n.homeListTitle),
                     const SizedBox(height: RGSpacing.xl),
+                    _CreateTaskTrigger(onTap: _openCreateTask),
+                    const SizedBox(height: RGSpacing.lg),
                     Expanded(child: _taskContent(context)),
                   ],
                 ),
@@ -249,6 +277,23 @@ class _NavItem extends StatelessWidget {
           style: active ? const TextStyle(fontWeight: FontWeight.w700) : null,
         ),
       ],
+    );
+  }
+}
+
+class _CreateTaskTrigger extends StatelessWidget {
+  const _CreateTaskTrigger({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return InkWell(
+      onTap: onTap,
+      child: IgnorePointer(
+        child: RGTextField.outlined(hint: l10n.createTaskInlineTrigger),
+      ),
     );
   }
 }

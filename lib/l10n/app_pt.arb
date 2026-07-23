@@ -37,5 +37,11 @@
   "homeEmptyDescription": "Toque em + para adicionar sua primeira tarefa.",
   "homeLoadError": "Não foi possível carregar suas tarefas.",
   "homeNavTasks": "Tarefas",
-  "homeListTitle": "Tarefas."
+  "homeListTitle": "Tarefas.",
+  "createTaskTitle": "Nova tarefa",
+  "createTaskPlaceholder": "No que você vai trabalhar?",
+  "createTaskSubmit": "Adicionar",
+  "createTaskCancel": "Cancelar",
+  "createTaskInlineTrigger": "Adicionar uma tarefa",
+  "createTaskFailed": "Não foi possível adicionar a tarefa. Tente novamente."
 }
