@@ -13,6 +13,7 @@ class FakeTaskService implements TaskService {
   final List<(String, String)> createCalls = [];
   final List<(String, String, bool)> setDoneCalls = [];
   final List<(String, String)> deleteCalls = [];
+  final List<String> deleteAllCalls = [];
   Exception? throwError;
 
   @override
@@ -41,6 +42,12 @@ class FakeTaskService implements TaskService {
   Future<void> deleteTask(String userId, String taskId) async {
     if (throwError != null) throw throwError!;
     deleteCalls.add((userId, taskId));
+  }
+
+  @override
+  Future<void> deleteAllTasks(String userId) async {
+    if (throwError != null) throw throwError!;
+    deleteAllCalls.add(userId);
   }
 }
 
@@ -146,6 +153,35 @@ void main() {
 
       expect(result, isA<Error<void>>());
       expect(taskService.deleteCalls, isEmpty);
+    });
+  });
+
+  group('deleteAllTasks', () {
+    test('forwards to the service scoped to the current user', () async {
+      authRepository.currentUserIdValue = 'user-42';
+
+      final result = await repository.deleteAllTasks();
+
+      expect(result, isA<Ok<void>>());
+      expect(taskService.deleteAllCalls, ['user-42']);
+    });
+
+    test('returns an error when there is no signed-in user', () async {
+      authRepository.currentUserIdValue = null;
+
+      final result = await repository.deleteAllTasks();
+
+      expect(result, isA<Error<void>>());
+      expect(taskService.deleteAllCalls, isEmpty);
+    });
+
+    test('returns an error when the service throws', () async {
+      authRepository.currentUserIdValue = 'user-42';
+      taskService.throwError = Exception('boom');
+
+      final result = await repository.deleteAllTasks();
+
+      expect(result, isA<Error<void>>());
     });
   });
 }

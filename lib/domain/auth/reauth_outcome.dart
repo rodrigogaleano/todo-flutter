@@ -1,0 +1,1 @@
+enum ReauthOutcome { reauthenticated, cancelled }

@@ -30,6 +30,7 @@
   "authErrorUserDisabled": "Dieses Konto wurde deaktiviert.",
   "authErrorNetwork": "Keine Verbindung. Prüfe dein Internet und versuche es erneut.",
   "authErrorTooManyRequests": "Zu viele Versuche. Versuche es später erneut.",
+  "authErrorRequiresRecentLogin": "Melde dich aus Sicherheitsgründen erneut an und versuche es.",
   "authErrorUnknown": "Etwas ist schiefgelaufen. Bitte versuche es erneut.",
   "homeTitle": "Todo",
   "homeTaskCount": "{count, plural, =1{1 Aufgabe} other{{count} Aufgaben}}",

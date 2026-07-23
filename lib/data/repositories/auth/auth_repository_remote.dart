@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:todo_flutter/data/repositories/auth/auth_repository.dart';
 import 'package:todo_flutter/data/services/auth_service.dart';
+import 'package:todo_flutter/domain/auth/reauth_outcome.dart';
+import 'package:todo_flutter/domain/auth/sign_in_method.dart';
 import 'package:todo_flutter/utils/result.dart';
 
 class AuthRepositoryRemote extends AuthRepository {
@@ -25,6 +27,9 @@ class AuthRepositoryRemote extends AuthRepository {
 
   @override
   String? get currentUserEmail => _authService.currentUserEmail;
+
+  @override
+  SignInMethod get signInMethod => _authService.signInMethod;
 
   void _onAuthStateChanged(bool isAuthenticated) {
     if (isAuthenticated == _isAuthenticated) return;
@@ -62,6 +67,21 @@ class AuthRepositoryRemote extends AuthRepository {
   @override
   Future<Result<void>> logout() {
     return _authService.signOut();
+  }
+
+  @override
+  Future<Result<ReauthOutcome>> reauthenticateWithPassword(String password) {
+    return _authService.reauthenticateWithPassword(password);
+  }
+
+  @override
+  Future<Result<ReauthOutcome>> reauthenticateWithGoogle() {
+    return _authService.reauthenticateWithGoogle();
+  }
+
+  @override
+  Future<Result<void>> deleteAccount() {
+    return _authService.deleteAccount();
   }
 
   @override

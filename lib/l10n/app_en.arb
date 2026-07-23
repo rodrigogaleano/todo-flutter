@@ -120,6 +120,10 @@
   "@authErrorTooManyRequests": {
     "description": "Auth error: rate limited"
   },
+  "authErrorRequiresRecentLogin": "For your security, sign in again and try.",
+  "@authErrorRequiresRecentLogin": {
+    "description": "Auth error: the action needs a recent sign-in"
+  },
   "authErrorUnknown": "Something went wrong. Please try again.",
   "@authErrorUnknown": {
     "description": "Auth error: generic fallback"

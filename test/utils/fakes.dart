@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:todo_flutter/data/repositories/auth/auth_repository.dart';
 import 'package:todo_flutter/data/repositories/settings/settings_repository.dart';
 import 'package:todo_flutter/data/repositories/task/task_repository.dart';
+import 'package:todo_flutter/domain/auth/reauth_outcome.dart';
+import 'package:todo_flutter/domain/auth/sign_in_method.dart';
 import 'package:todo_flutter/domain/models/task/task.dart';
 import 'package:todo_flutter/utils/result.dart';
 
@@ -12,15 +14,26 @@ class FakeAuthRepository extends ChangeNotifier implements AuthRepository {
   Result<void> registerResult = const Result.ok(null);
   Result<void> loginWithGoogleResult = const Result.ok(null);
   Result<void> sendPasswordResetResult = const Result.ok(null);
+  Result<ReauthOutcome> reauthenticateWithPasswordResult = const Result.ok(
+    ReauthOutcome.reauthenticated,
+  );
+  Result<ReauthOutcome> reauthenticateWithGoogleResult = const Result.ok(
+    ReauthOutcome.reauthenticated,
+  );
+  Result<void> deleteAccountResult = const Result.ok(null);
   int loginCallCount = 0;
   int registerCallCount = 0;
   int loginWithGoogleCallCount = 0;
   int sendPasswordResetCallCount = 0;
   int logoutCallCount = 0;
+  int reauthenticateWithGoogleCallCount = 0;
+  int deleteAccountCallCount = 0;
+  final List<String> reauthenticateWithPasswordCalls = [];
   bool _isAuthenticated = false;
   String? currentUserIdValue = 'user-1';
   String? currentUserDisplayNameValue;
   String? currentUserEmailValue;
+  SignInMethod signInMethodValue = SignInMethod.password;
 
   @override
   bool get isAuthenticated => _isAuthenticated;
@@ -33,6 +46,9 @@ class FakeAuthRepository extends ChangeNotifier implements AuthRepository {
 
   @override
   String? get currentUserEmail => currentUserEmailValue;
+
+  @override
+  SignInMethod get signInMethod => signInMethodValue;
 
   @override
   Future<Result<void>> login({
@@ -82,6 +98,26 @@ class FakeAuthRepository extends ChangeNotifier implements AuthRepository {
     logoutCallCount++;
     return const Result.ok(null);
   }
+
+  @override
+  Future<Result<ReauthOutcome>> reauthenticateWithPassword(
+    String password,
+  ) async {
+    reauthenticateWithPasswordCalls.add(password);
+    return reauthenticateWithPasswordResult;
+  }
+
+  @override
+  Future<Result<ReauthOutcome>> reauthenticateWithGoogle() async {
+    reauthenticateWithGoogleCallCount++;
+    return reauthenticateWithGoogleResult;
+  }
+
+  @override
+  Future<Result<void>> deleteAccount() async {
+    deleteAccountCallCount++;
+    return deleteAccountResult;
+  }
 }
 
 class FakeTaskRepository implements TaskRepository {
@@ -91,10 +127,12 @@ class FakeTaskRepository implements TaskRepository {
   Result<void> createTaskResult = const Result.ok(null);
   Result<void> setTaskDoneResult = const Result.ok(null);
   Result<void> deleteTaskResult = const Result.ok(null);
+  Result<void> deleteAllTasksResult = const Result.ok(null);
 
   final List<String> createdTitles = [];
   final List<(String, bool)> setDoneCalls = [];
   final List<String> deletedIds = [];
+  int deleteAllTasksCallCount = 0;
 
   void emit(List<Task> tasks) => _controller.add(tasks);
 
@@ -122,6 +160,12 @@ class FakeTaskRepository implements TaskRepository {
   Future<Result<void>> deleteTask(String taskId) async {
     deletedIds.add(taskId);
     return deleteTaskResult;
+  }
+
+  @override
+  Future<Result<void>> deleteAllTasks() async {
+    deleteAllTasksCallCount++;
+    return deleteAllTasksResult;
   }
 
   Future<void> dispose() => _controller.close();
