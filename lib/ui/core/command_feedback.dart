@@ -15,6 +15,9 @@ mixin CommandFeedback<T extends StatefulWidget> on State<T> {
 
   void onCommandSuccess(Command<void> command) {}
 
+  String commandErrorMessage(Command<void> command, Object error) =>
+      authErrorMessage(AppLocalizations.of(context), error);
+
   @override
   void initState() {
     super.initState();
@@ -36,10 +39,7 @@ mixin CommandFeedback<T extends StatefulWidget> on State<T> {
       if (command.error) {
         final error = (command.result! as Error<void>).error;
         command.clearResult();
-        showSnackBar(
-          context,
-          authErrorMessage(AppLocalizations.of(context), error),
-        );
+        showSnackBar(context, commandErrorMessage(command, error));
       } else if (command.completed) {
         // Don't navigate on success: the router redirect reacts to the auth
         // stream, and navigating now would race the state flip.

@@ -37,5 +37,14 @@
   "homeEmptyDescription": "Tippe auf +, um deine erste Aufgabe hinzuzufügen.",
   "homeLoadError": "Deine Aufgaben konnten nicht geladen werden.",
   "homeNavTasks": "Aufgaben",
-  "homeListTitle": "Aufgaben."
+  "homeListTitle": "Aufgaben.",
+  "createTaskTitle": "Neue Aufgabe",
+  "createTaskPlaceholder": "Woran wirst du arbeiten?",
+  "createTaskSubmit": "Hinzufügen",
+  "createTaskCancel": "Abbrechen",
+  "createTaskInlineTrigger": "Aufgabe hinzufügen",
+  "createTaskFailed": "Aufgabe konnte nicht hinzugefügt werden. Bitte versuche es erneut.",
+  "taskDeleteLabel": "Aufgabe löschen",
+  "taskToggleFailed": "Aufgabe konnte nicht aktualisiert werden. Bitte versuche es erneut.",
+  "taskDeleteFailed": "Aufgabe konnte nicht gelöscht werden. Bitte versuche es erneut."
 }

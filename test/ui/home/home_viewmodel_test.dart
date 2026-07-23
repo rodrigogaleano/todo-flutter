@@ -73,4 +73,22 @@ void main() {
     await viewModel.logout.execute();
     expect(authRepository.logoutCallCount, 1);
   });
+
+  test('createTask forwards the trimmed title to the repository', () async {
+    await viewModel.createTask.execute('  Buy milk  ');
+    expect(taskRepository.createdTitles, ['Buy milk']);
+  });
+
+  test('toggleTask flips the done state and forwards to the repo', () async {
+    await viewModel.toggleTask.execute(_task('1'));
+    expect(taskRepository.setDoneCalls, [('1', true)]);
+
+    await viewModel.toggleTask.execute(_task('2', isDone: true));
+    expect(taskRepository.setDoneCalls, [('1', true), ('2', false)]);
+  });
+
+  test('deleteTask forwards the id to the repository', () async {
+    await viewModel.deleteTask.execute(_task('1'));
+    expect(taskRepository.deletedIds, ['1']);
+  });
 }

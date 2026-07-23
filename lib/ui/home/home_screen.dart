@@ -1,13 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:rg_design_system/rg_design_system.dart';
 import 'package:todo_flutter/domain/models/task/task.dart';
 import 'package:todo_flutter/l10n/generated/app_localizations.dart';
-import 'package:todo_flutter/routing/routes.dart';
 import 'package:todo_flutter/ui/core/command_feedback.dart';
 import 'package:todo_flutter/ui/home/home_viewmodel.dart';
+import 'package:todo_flutter/ui/home/widgets/create_task_form.dart';
 import 'package:todo_flutter/utils/command.dart';
 
 const double _kHomeDesktopBreakpoint = 840;
@@ -25,7 +24,19 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with CommandFeedback {
   @override
-  List<Command<void>> get feedbackCommands => [widget.viewModel.logout];
+  List<Command<void>> get feedbackCommands => [
+    widget.viewModel.logout,
+    widget.viewModel.toggleTask,
+    widget.viewModel.deleteTask,
+  ];
+
+  @override
+  String commandErrorMessage(Command<void> command, Object error) {
+    final l10n = AppLocalizations.of(context);
+    if (command == widget.viewModel.toggleTask) return l10n.taskToggleFailed;
+    if (command == widget.viewModel.deleteTask) return l10n.taskDeleteFailed;
+    return super.commandErrorMessage(command, error);
+  }
 
   @override
   void dispose() {
@@ -35,6 +46,39 @@ class _HomeScreenState extends State<HomeScreen> with CommandFeedback {
 
   void _logout() => unawaited(widget.viewModel.logout.execute());
 
+  void _toggle(Task task) =>
+      unawaited(widget.viewModel.toggleTask.execute(task));
+
+  void _delete(Task task) =>
+      unawaited(widget.viewModel.deleteTask.execute(task));
+
+  void _openCreateTask() {
+    final isWide = MediaQuery.sizeOf(context).width >= _kHomeDesktopBreakpoint;
+    if (isWide) {
+      unawaited(
+        showDialog<void>(
+          context: context,
+          builder: (_) => CreateTaskForm(
+            createTask: widget.viewModel.createTask,
+            layout: CreateTaskLayout.dialog,
+          ),
+        ),
+      );
+    } else {
+      unawaited(
+        showModalBottomSheet<void>(
+          context: context,
+          isScrollControlled: true,
+          shape: const RoundedRectangleBorder(),
+          builder: (_) => CreateTaskForm(
+            createTask: widget.viewModel.createTask,
+            layout: CreateTaskLayout.sheet,
+          ),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
@@ -43,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> with CommandFeedback {
       floatingActionButton: isWide
           ? null
           : FloatingActionButton(
-              onPressed: () => context.push(Routes.createTask),
+              onPressed: _openCreateTask,
               shape: const RoundedRectangleBorder(),
               backgroundColor: colors.onSurface,
               foregroundColor: colors.surface,
@@ -105,6 +149,8 @@ class _HomeScreenState extends State<HomeScreen> with CommandFeedback {
                   children: [
                     RGText.h2(l10n.homeListTitle),
                     const SizedBox(height: RGSpacing.xl),
+                    _CreateTaskTrigger(onTap: _openCreateTask),
+                    const SizedBox(height: RGSpacing.lg),
                     Expanded(child: _taskContent(context)),
                   ],
                 ),
@@ -153,8 +199,11 @@ class _HomeScreenState extends State<HomeScreen> with CommandFeedback {
           child: ListView.separated(
             itemCount: viewModel.tasks.length,
             separatorBuilder: (context, index) => const RGDivider(),
-            itemBuilder: (context, index) =>
-                _TaskRow(task: viewModel.tasks[index]),
+            itemBuilder: (context, index) => _TaskRow(
+              task: viewModel.tasks[index],
+              onToggle: _toggle,
+              onDelete: _delete,
+            ),
           ),
         ),
       ],
@@ -253,19 +302,43 @@ class _NavItem extends StatelessWidget {
   }
 }
 
-class _TaskRow extends StatelessWidget {
-  const _TaskRow({required this.task});
+class _CreateTaskTrigger extends StatelessWidget {
+  const _CreateTaskTrigger({required this.onTap});
 
-  final Task task;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return InkWell(
+      onTap: onTap,
+      child: IgnorePointer(
+        child: RGTextField.outlined(hint: l10n.createTaskInlineTrigger),
+      ),
+    );
+  }
+}
+
+class _TaskRow extends StatelessWidget {
+  const _TaskRow({
+    required this.task,
+    required this.onToggle,
+    required this.onDelete,
+  });
+
+  final Task task;
+  final ValueChanged<Task> onToggle;
+  final ValueChanged<Task> onDelete;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final colors = Theme.of(context).colorScheme;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: RGSpacing.md),
       child: Row(
         children: [
-          RGCheckbox(value: task.isDone, onChanged: null),
+          RGCheckbox(value: task.isDone, onChanged: (_) => onToggle(task)),
           const SizedBox(width: RGSpacing.md),
           Expanded(
             child: RGText.body(
@@ -276,6 +349,12 @@ class _TaskRow extends StatelessWidget {
                   ? const TextStyle(decoration: TextDecoration.lineThrough)
                   : null,
             ),
+          ),
+          RGButton.icon(
+            icon: Icons.delete_outline,
+            tooltip: l10n.taskDeleteLabel,
+            variant: RGButtonVariant.text,
+            onPressed: () => onDelete(task),
           ),
         ],
       ),

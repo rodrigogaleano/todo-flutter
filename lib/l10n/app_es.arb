@@ -37,5 +37,14 @@
   "homeEmptyDescription": "Toca + para agregar tu primera tarea.",
   "homeLoadError": "No se pudieron cargar tus tareas.",
   "homeNavTasks": "Tareas",
-  "homeListTitle": "Tareas."
+  "homeListTitle": "Tareas.",
+  "createTaskTitle": "Nueva tarea",
+  "createTaskPlaceholder": "¿En qué vas a trabajar?",
+  "createTaskSubmit": "Agregar",
+  "createTaskCancel": "Cancelar",
+  "createTaskInlineTrigger": "Agregar una tarea",
+  "createTaskFailed": "No se pudo agregar la tarea. Inténtalo de nuevo.",
+  "taskDeleteLabel": "Eliminar tarea",
+  "taskToggleFailed": "No se pudo actualizar la tarea. Inténtalo de nuevo.",
+  "taskDeleteFailed": "No se pudo eliminar la tarea. Inténtalo de nuevo."
 }

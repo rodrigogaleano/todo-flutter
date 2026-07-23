@@ -66,6 +66,110 @@ void main() {
     expect(authRepository.logoutCallCount, 1);
   });
 
+  testWidgets('toggles a task when its checkbox is tapped', (tester) async {
+    final taskRepository = FakeTaskRepository();
+    final viewModel = HomeViewModel(taskRepository, FakeAuthRepository());
+    await _pumpHome(tester, viewModel);
+
+    taskRepository.emit([
+      Task(
+        id: '1',
+        title: 'Buy milk',
+        isDone: false,
+        createdAt: DateTime(2026),
+      ),
+    ]);
+    await tester.pump();
+
+    await tester.tap(find.byType(RGCheckbox));
+    await tester.pump();
+
+    expect(taskRepository.setDoneCalls, [('1', true)]);
+  });
+
+  testWidgets('deletes a task when the trash button is tapped', (tester) async {
+    final taskRepository = FakeTaskRepository();
+    final viewModel = HomeViewModel(taskRepository, FakeAuthRepository());
+    await _pumpHome(tester, viewModel);
+
+    taskRepository.emit([
+      Task(
+        id: '1',
+        title: 'Buy milk',
+        isDone: false,
+        createdAt: DateTime(2026),
+      ),
+    ]);
+    await tester.pump();
+
+    await tester.tap(find.byIcon(Icons.delete_outline));
+    await tester.pump();
+
+    expect(taskRepository.deletedIds, ['1']);
+  });
+
+  testWidgets('creates a task from the bottom sheet on narrow screens', (
+    tester,
+  ) async {
+    final taskRepository = FakeTaskRepository();
+    final viewModel = HomeViewModel(taskRepository, FakeAuthRepository());
+    await _pumpHome(tester, viewModel);
+
+    taskRepository.emit(const []);
+    await tester.pump();
+
+    await tester.tap(find.byType(FloatingActionButton));
+    await tester.pumpAndSettle();
+
+    await tester.enterText(find.byType(TextField), 'Buy milk');
+    await tester.pump();
+    await tester.tap(find.text('Add'));
+    await tester.pumpAndSettle();
+
+    expect(taskRepository.createdTitles, ['Buy milk']);
+    expect(find.byType(TextField), findsNothing);
+  });
+
+  testWidgets('creates a task from the inline dialog on wide screens', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1280, 720);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    final taskRepository = FakeTaskRepository();
+    final viewModel = HomeViewModel(taskRepository, FakeAuthRepository());
+    await _pumpHome(tester, viewModel);
+
+    taskRepository.emit(const []);
+    await tester.pump();
+
+    await tester.tap(
+      find.ancestor(
+        of: find.text('Add a task'),
+        matching: find.byType(InkWell),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byType(Dialog), findsOneWidget);
+
+    final dialogField = find.descendant(
+      of: find.byType(Dialog),
+      matching: find.byType(TextField),
+    );
+    await tester.enterText(dialogField, 'Ship it');
+    await tester.pump();
+    await tester.tap(
+      find.descendant(of: find.byType(Dialog), matching: find.text('Add')),
+    );
+    await tester.pumpAndSettle();
+
+    expect(taskRepository.createdTitles, ['Ship it']);
+    expect(find.byType(Dialog), findsNothing);
+  });
+
   testWidgets('shows the sidebar and logs out from it on wide screens', (
     tester,
   ) async {
