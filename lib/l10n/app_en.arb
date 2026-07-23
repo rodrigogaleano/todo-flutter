@@ -123,5 +123,38 @@
   "authErrorUnknown": "Something went wrong. Please try again.",
   "@authErrorUnknown": {
     "description": "Auth error: generic fallback"
+  },
+  "homeTitle": "Todo",
+  "@homeTitle": {
+    "description": "App wordmark shown at the top of the home screen"
+  },
+  "homeTaskCount": "{count, plural, =1{1 task} other{{count} tasks}}",
+  "@homeTaskCount": {
+    "description": "Open task count shown above the list",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "homeEmptyTitle": "No tasks.",
+  "@homeEmptyTitle": {
+    "description": "Title of the empty home state"
+  },
+  "homeEmptyDescription": "Tap + to add your first task.",
+  "@homeEmptyDescription": {
+    "description": "Body of the empty home state"
+  },
+  "homeLoadError": "Couldn't load your tasks.",
+  "@homeLoadError": {
+    "description": "Shown when the task list fails to load"
+  },
+  "homeNavTasks": "Tasks",
+  "@homeNavTasks": {
+    "description": "Sidebar navigation label for the tasks section"
+  },
+  "homeListTitle": "Tasks.",
+  "@homeListTitle": {
+    "description": "Title of the task list area on wide screens"
   }
 }

@@ -30,5 +30,12 @@
   "authErrorUserDisabled": "Esta cuenta ha sido deshabilitada.",
   "authErrorNetwork": "Sin conexión. Verifica tu internet e inténtalo de nuevo.",
   "authErrorTooManyRequests": "Demasiados intentos. Inténtalo más tarde.",
-  "authErrorUnknown": "Algo salió mal. Inténtalo de nuevo."
+  "authErrorUnknown": "Algo salió mal. Inténtalo de nuevo.",
+  "homeTitle": "Todo",
+  "homeTaskCount": "{count, plural, =1{1 tarea} other{{count} tareas}}",
+  "homeEmptyTitle": "Sin tareas.",
+  "homeEmptyDescription": "Toca + para agregar tu primera tarea.",
+  "homeLoadError": "No se pudieron cargar tus tareas.",
+  "homeNavTasks": "Tareas",
+  "homeListTitle": "Tareas."
 }

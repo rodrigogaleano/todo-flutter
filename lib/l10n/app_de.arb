@@ -30,5 +30,12 @@
   "authErrorUserDisabled": "Dieses Konto wurde deaktiviert.",
   "authErrorNetwork": "Keine Verbindung. Prüfe dein Internet und versuche es erneut.",
   "authErrorTooManyRequests": "Zu viele Versuche. Versuche es später erneut.",
-  "authErrorUnknown": "Etwas ist schiefgelaufen. Bitte versuche es erneut."
+  "authErrorUnknown": "Etwas ist schiefgelaufen. Bitte versuche es erneut.",
+  "homeTitle": "Todo",
+  "homeTaskCount": "{count, plural, =1{1 Aufgabe} other{{count} Aufgaben}}",
+  "homeEmptyTitle": "Keine Aufgaben.",
+  "homeEmptyDescription": "Tippe auf +, um deine erste Aufgabe hinzuzufügen.",
+  "homeLoadError": "Deine Aufgaben konnten nicht geladen werden.",
+  "homeNavTasks": "Aufgaben",
+  "homeListTitle": "Aufgaben."
 }

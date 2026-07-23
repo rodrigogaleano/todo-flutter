@@ -3,6 +3,12 @@ import 'package:todo_flutter/utils/result.dart';
 abstract interface class AuthService {
   Stream<bool> get authStateChanges;
 
+  String? get currentUserId;
+
+  String? get currentUserDisplayName;
+
+  String? get currentUserEmail;
+
   Future<Result<void>> signIn({
     required String email,
     required String password,

@@ -16,6 +16,15 @@ class FakeAuthService implements AuthService {
   Stream<bool> get authStateChanges => _controller.stream;
 
   @override
+  String? get currentUserId => null;
+
+  @override
+  String? get currentUserDisplayName => null;
+
+  @override
+  String? get currentUserEmail => null;
+
+  @override
   Future<Result<void>> signIn({
     required String email,
     required String password,

@@ -9,6 +9,8 @@ import 'package:todo_flutter/ui/auth/recover_password/recover_password_screen.da
 import 'package:todo_flutter/ui/auth/recover_password/recover_password_viewmodel.dart';
 import 'package:todo_flutter/ui/auth/signup/signup_screen.dart';
 import 'package:todo_flutter/ui/auth/signup/signup_viewmodel.dart';
+import 'package:todo_flutter/ui/home/home_screen.dart';
+import 'package:todo_flutter/ui/home/home_viewmodel.dart';
 
 String? authRedirect({
   required bool isAuthenticated,
@@ -33,7 +35,9 @@ GoRouter router(AuthRepository authRepository) {
     routes: [
       GoRoute(
         path: Routes.home,
-        builder: (context, state) => const _TempHomeScreen(),
+        builder: (context, state) => HomeScreen(
+          viewModel: HomeViewModel(context.read(), context.read()),
+        ),
       ),
       GoRoute(
         path: Routes.login,
@@ -51,23 +55,10 @@ GoRouter router(AuthRepository authRepository) {
           viewModel: RecoverPasswordViewModel(context.read()),
         ),
       ),
+      GoRoute(
+        path: Routes.createTask,
+        builder: (context, state) => const Placeholder(),
+      ),
     ],
   );
-}
-
-// Temporary home for logout until the real home screen exists.
-class _TempHomeScreen extends StatelessWidget {
-  const _TempHomeScreen();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: const Placeholder(),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => context.read<AuthRepository>().logout(),
-        label: const Text('Logout'),
-        icon: const Icon(Icons.logout),
-      ),
-    );
-  }
 }
