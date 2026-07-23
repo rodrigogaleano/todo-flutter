@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_flutter/data/repositories/auth/auth_repository.dart';
@@ -12,6 +13,15 @@ import 'package:todo_flutter/ui/home/home_screen.dart';
 import 'package:todo_flutter/ui/home/home_viewmodel.dart';
 import 'package:todo_flutter/ui/settings/settings_screen.dart';
 import 'package:todo_flutter/ui/settings/settings_viewmodel.dart';
+
+const double _kShellBreakpoint = 840;
+
+Page<void> _adaptivePage(BuildContext context, Widget child) {
+  final isWide = MediaQuery.sizeOf(context).width >= _kShellBreakpoint;
+  return isWide
+      ? NoTransitionPage<void>(child: child)
+      : MaterialPage<void>(child: child);
+}
 
 String? authRedirect({
   required bool isAuthenticated,
@@ -36,8 +46,11 @@ GoRouter router(AuthRepository authRepository) {
     routes: [
       GoRoute(
         path: Routes.home,
-        builder: (context, state) => HomeScreen(
-          viewModel: HomeViewModel(context.read(), context.read()),
+        pageBuilder: (context, state) => _adaptivePage(
+          context,
+          HomeScreen(
+            viewModel: HomeViewModel(context.read(), context.read()),
+          ),
         ),
       ),
       GoRoute(
@@ -58,8 +71,11 @@ GoRouter router(AuthRepository authRepository) {
       ),
       GoRoute(
         path: Routes.settings,
-        builder: (context, state) => SettingsScreen(
-          viewModel: SettingsViewModel(context.read(), context.read()),
+        pageBuilder: (context, state) => _adaptivePage(
+          context,
+          SettingsScreen(
+            viewModel: SettingsViewModel(context.read(), context.read()),
+          ),
         ),
       ),
     ],
