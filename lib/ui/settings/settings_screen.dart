@@ -131,6 +131,12 @@ class _SettingsScreenState extends State<SettingsScreen> with CommandFeedback {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            _AppearanceSection(
+              themeMode: widget.viewModel.themeMode,
+              onChanged: (mode) =>
+                  unawaited(widget.viewModel.setThemeMode(mode)),
+            ),
+            const SizedBox(height: RGSpacing.xxl),
             _LanguageSection(
               value: Locale(effective.languageCode),
               onChanged: (locale) =>
@@ -144,6 +150,49 @@ class _SettingsScreenState extends State<SettingsScreen> with CommandFeedback {
           ],
         );
       },
+    );
+  }
+}
+
+class _AppearanceSection extends StatelessWidget {
+  const _AppearanceSection({required this.themeMode, required this.onChanged});
+
+  final ThemeMode themeMode;
+  final ValueChanged<ThemeMode> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final colors = Theme.of(context).colorScheme;
+    final isDark = switch (themeMode) {
+      ThemeMode.dark => true,
+      ThemeMode.light => false,
+      ThemeMode.system =>
+        MediaQuery.platformBrightnessOf(context) == Brightness.dark,
+    };
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        RGText.overline(
+          l10n.settingsAppearanceSection,
+          color: colors.onSurfaceVariant,
+        ),
+        const SizedBox(height: RGSpacing.sm),
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: RGSpacing.sm),
+          decoration: BoxDecoration(
+            border: Border.symmetric(
+              horizontal: BorderSide(color: colors.outline),
+            ),
+          ),
+          child: RGSwitch(
+            value: isDark,
+            label: l10n.settingsDarkTheme,
+            onChanged: (value) =>
+                onChanged(value ? ThemeMode.dark : ThemeMode.light),
+          ),
+        ),
+      ],
     );
   }
 }

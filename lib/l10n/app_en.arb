@@ -201,6 +201,14 @@
   "@settingsNavSettings": {
     "description": "Sidebar navigation label for the settings section"
   },
+  "settingsAppearanceSection": "Appearance",
+  "@settingsAppearanceSection": {
+    "description": "Section header for the appearance settings"
+  },
+  "settingsDarkTheme": "Dark theme",
+  "@settingsDarkTheme": {
+    "description": "Label for the dark theme toggle"
+  },
   "settingsLanguageSection": "Language",
   "@settingsLanguageSection": {
     "description": "Section header for the language selector"

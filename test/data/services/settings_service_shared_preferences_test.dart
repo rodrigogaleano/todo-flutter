@@ -24,4 +24,18 @@ void main() {
     await service.setLocaleCode(null);
     expect(service.localeCode, isNull);
   });
+
+  test('persists and reads back the theme mode', () async {
+    SharedPreferences.setMockInitialValues({});
+    final prefs = await SharedPreferences.getInstance();
+    final service = SettingsServiceSharedPreferences(prefs);
+
+    expect(service.themeMode, isNull);
+
+    await service.setThemeMode('dark');
+    expect(service.themeMode, 'dark');
+
+    await service.setThemeMode(null);
+    expect(service.themeMode, isNull);
+  });
 }

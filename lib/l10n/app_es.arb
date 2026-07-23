@@ -49,6 +49,8 @@
   "taskDeleteFailed": "No se pudo eliminar la tarea. Inténtalo de nuevo.",
   "settingsTitle": "Ajustes.",
   "settingsNavSettings": "Ajustes",
+  "settingsAppearanceSection": "Apariencia",
+  "settingsDarkTheme": "Tema oscuro",
   "settingsLanguageSection": "Idioma",
   "settingsAccountSection": "Cuenta",
   "settingsEmailLabel": "Correo",

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:todo_flutter/data/repositories/auth/auth_repository.dart';
 import 'package:todo_flutter/data/repositories/settings/settings_repository.dart';
 import 'package:todo_flutter/data/repositories/task/task_repository.dart';
@@ -130,7 +130,9 @@ class FakeTaskRepository implements TaskRepository {
 class FakeSettingsRepository extends ChangeNotifier
     implements SettingsRepository {
   Locale? _locale;
+  ThemeMode _themeMode = ThemeMode.system;
   final List<Locale?> setLocaleCalls = [];
+  final List<ThemeMode> setThemeModeCalls = [];
 
   @override
   Locale? get locale => _locale;
@@ -139,6 +141,16 @@ class FakeSettingsRepository extends ChangeNotifier
   Future<void> setLocale(Locale? locale) async {
     setLocaleCalls.add(locale);
     _locale = locale;
+    notifyListeners();
+  }
+
+  @override
+  ThemeMode get themeMode => _themeMode;
+
+  @override
+  Future<void> setThemeMode(ThemeMode mode) async {
+    setThemeModeCalls.add(mode);
+    _themeMode = mode;
     notifyListeners();
   }
 }

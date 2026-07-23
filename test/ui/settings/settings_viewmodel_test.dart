@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:todo_flutter/ui/settings/settings_viewmodel.dart';
 
@@ -50,6 +50,17 @@ void main() {
   test('setLocale forwards to the settings repository', () async {
     await viewModel.setLocale(const Locale('de'));
     expect(settingsRepository.setLocaleCalls, [const Locale('de')]);
+  });
+
+  test('themeMode reflects the settings repository', () async {
+    expect(viewModel.themeMode, ThemeMode.system);
+    await settingsRepository.setThemeMode(ThemeMode.dark);
+    expect(viewModel.themeMode, ThemeMode.dark);
+  });
+
+  test('setThemeMode forwards to the settings repository', () async {
+    await viewModel.setThemeMode(ThemeMode.light);
+    expect(settingsRepository.setThemeModeCalls, [ThemeMode.light]);
   });
 
   test('notifies listeners when the settings repository changes', () async {

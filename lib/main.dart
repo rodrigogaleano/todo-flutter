@@ -30,6 +30,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp.router(
       theme: RGTheme.light,
       darkTheme: RGTheme.dark,
+      themeMode: settings.themeMode,
       debugShowCheckedModeBanner: false,
       locale: settings.locale,
       supportedLocales: AppLocalizations.supportedLocales,

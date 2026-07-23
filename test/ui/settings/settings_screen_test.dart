@@ -69,6 +69,19 @@ void main() {
     expect(authRepository.logoutCallCount, 1);
   });
 
+  testWidgets('toggles the dark theme from the switch', (tester) async {
+    final settingsRepository = FakeSettingsRepository();
+    await _pumpSettings(
+      tester,
+      _viewModel(FakeAuthRepository(), settingsRepository),
+    );
+
+    await tester.tap(find.byType(RGSwitch));
+    await tester.pumpAndSettle();
+
+    expect(settingsRepository.setThemeModeCalls, [ThemeMode.dark]);
+  });
+
   testWidgets('changes the language from the selector', (tester) async {
     final settingsRepository = FakeSettingsRepository();
     await _pumpSettings(

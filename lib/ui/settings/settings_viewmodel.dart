@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:todo_flutter/data/repositories/auth/auth_repository.dart';
 import 'package:todo_flutter/data/repositories/settings/settings_repository.dart';
 import 'package:todo_flutter/ui/core/user_display.dart';
@@ -19,6 +19,11 @@ class SettingsViewModel extends ChangeNotifier {
 
   Future<void> setLocale(Locale locale) =>
       _settingsRepository.setLocale(locale);
+
+  ThemeMode get themeMode => _settingsRepository.themeMode;
+
+  Future<void> setThemeMode(ThemeMode mode) =>
+      _settingsRepository.setThemeMode(mode);
 
   String get avatarInitials => UserDisplay.initials(
     _authRepository.currentUserDisplayName,
