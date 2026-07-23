@@ -59,6 +59,16 @@ void main() {
     expect(viewModel.avatarInitials, 'R');
   });
 
+  test('user name uses the display name, then the email local part', () {
+    authRepository
+      ..currentUserDisplayNameValue = 'Rodrigo Galeano'
+      ..currentUserEmailValue = 'rodrigo1galeano@example.com';
+    expect(viewModel.userName, 'Rodrigo Galeano');
+
+    authRepository.currentUserDisplayNameValue = null;
+    expect(viewModel.userName, 'rodrigo1galeano');
+  });
+
   test('logout forwards to the auth repository', () async {
     await viewModel.logout.execute();
     expect(authRepository.logoutCallCount, 1);

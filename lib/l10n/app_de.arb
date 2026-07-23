@@ -35,5 +35,7 @@
   "homeTaskCount": "{count, plural, =1{1 Aufgabe} other{{count} Aufgaben}}",
   "homeEmptyTitle": "Keine Aufgaben.",
   "homeEmptyDescription": "Tippe auf +, um deine erste Aufgabe hinzuzufügen.",
-  "homeLoadError": "Deine Aufgaben konnten nicht geladen werden."
+  "homeLoadError": "Deine Aufgaben konnten nicht geladen werden.",
+  "homeNavTasks": "Aufgaben",
+  "homeListTitle": "Aufgaben."
 }

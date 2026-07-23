@@ -10,6 +10,10 @@ import 'package:todo_flutter/ui/core/command_feedback.dart';
 import 'package:todo_flutter/ui/home/home_viewmodel.dart';
 import 'package:todo_flutter/utils/command.dart';
 
+const double _kHomeDesktopBreakpoint = 840;
+const double _kHomeContentMaxWidth = 720;
+const double _kSidebarWidth = 240;
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({required this.viewModel, super.key});
 
@@ -33,48 +37,88 @@ class _HomeScreenState extends State<HomeScreen> with CommandFeedback {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
     final colors = Theme.of(context).colorScheme;
+    final isWide = MediaQuery.sizeOf(context).width >= _kHomeDesktopBreakpoint;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => context.push(Routes.createTask),
-        shape: const RoundedRectangleBorder(),
-        backgroundColor: colors.onSurface,
-        foregroundColor: colors.surface,
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: isWide
+          ? null
+          : FloatingActionButton(
+              onPressed: () => context.push(Routes.createTask),
+              shape: const RoundedRectangleBorder(),
+              backgroundColor: colors.onSurface,
+              foregroundColor: colors.surface,
+              child: const Icon(Icons.add),
+            ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(RGSpacing.lg),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  RGText.h3(l10n.homeTitle),
-                  InkWell(
-                    onTap: _logout,
-                    customBorder: const CircleBorder(),
-                    child: RGAvatar(widget.viewModel.avatarInitials),
-                  ),
-                ],
-              ),
-              const SizedBox(height: RGSpacing.lg),
-              Expanded(
-                child: ListenableBuilder(
-                  listenable: widget.viewModel,
-                  builder: (context, _) => _content(l10n, colors),
-                ),
-              ),
-            ],
-          ),
+        child: ListenableBuilder(
+          listenable: widget.viewModel,
+          builder: (context, _) =>
+              isWide ? _buildDesktop(context) : _buildMobile(context),
         ),
       ),
     );
   }
 
-  Widget _content(AppLocalizations l10n, ColorScheme colors) {
+  Widget _buildMobile(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return Padding(
+      padding: const EdgeInsets.all(RGSpacing.lg),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              RGText.h3(l10n.homeTitle),
+              InkWell(
+                onTap: _logout,
+                customBorder: const CircleBorder(),
+                child: RGAvatar(widget.viewModel.avatarInitials),
+              ),
+            ],
+          ),
+          const SizedBox(height: RGSpacing.lg),
+          Expanded(child: _taskContent(context)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDesktop(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return Row(
+      children: [
+        _Sidebar(viewModel: widget.viewModel, onLogout: _logout),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: RGSpacing.xxl,
+              vertical: RGSpacing.xxxl,
+            ),
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(
+                  maxWidth: _kHomeContentMaxWidth,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    RGText.h2(l10n.homeListTitle),
+                    const SizedBox(height: RGSpacing.xl),
+                    Expanded(child: _taskContent(context)),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _taskContent(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final colors = Theme.of(context).colorScheme;
     final viewModel = widget.viewModel;
     if (viewModel.isLoading) {
       return const Center(child: CircularProgressIndicator());
@@ -112,6 +156,97 @@ class _HomeScreenState extends State<HomeScreen> with CommandFeedback {
             itemBuilder: (context, index) =>
                 _TaskRow(task: viewModel.tasks[index]),
           ),
+        ),
+      ],
+    );
+  }
+}
+
+class _Sidebar extends StatelessWidget {
+  const _Sidebar({required this.viewModel, required this.onLogout});
+
+  final HomeViewModel viewModel;
+  final VoidCallback onLogout;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final colors = Theme.of(context).colorScheme;
+    return Container(
+      width: _kSidebarWidth,
+      decoration: BoxDecoration(
+        border: Border(right: BorderSide(color: colors.outline)),
+      ),
+      padding: const EdgeInsets.symmetric(
+        horizontal: RGSpacing.lg,
+        vertical: RGSpacing.xl,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          RGText.h3(l10n.homeTitle),
+          const SizedBox(height: RGSpacing.xxl),
+          _NavItem(label: l10n.homeNavTasks, active: true),
+          const Spacer(),
+          const RGDivider(),
+          const SizedBox(height: RGSpacing.md),
+          InkWell(
+            onTap: onLogout,
+            child: Row(
+              children: [
+                RGAvatar(viewModel.avatarInitials, size: 36),
+                const SizedBox(width: RGSpacing.md),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      RGText.body(
+                        viewModel.userName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(fontWeight: FontWeight.w700),
+                      ),
+                      if (viewModel.userEmail.isNotEmpty)
+                        RGText.caption(
+                          viewModel.userEmail,
+                          color: colors.onSurfaceVariant,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _NavItem extends StatelessWidget {
+  const _NavItem({required this.label, required this.active});
+
+  final String label;
+  final bool active;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    return Row(
+      children: [
+        Container(
+          width: 6,
+          height: 6,
+          color: active ? colors.onSurface : Colors.transparent,
+        ),
+        const SizedBox(width: RGSpacing.sm),
+        RGText.body(
+          label,
+          color: active ? null : colors.onSurfaceVariant,
+          style: active ? const TextStyle(fontWeight: FontWeight.w700) : null,
         ),
       ],
     );

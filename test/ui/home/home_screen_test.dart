@@ -65,4 +65,33 @@ void main() {
 
     expect(authRepository.logoutCallCount, 1);
   });
+
+  testWidgets('shows the sidebar and logs out from it on wide screens', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1280, 720);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    final taskRepository = FakeTaskRepository();
+    final authRepository = FakeAuthRepository()
+      ..currentUserDisplayNameValue = 'Rodrigo Galeano'
+      ..currentUserEmailValue = 'rodrigo@example.com';
+    final viewModel = HomeViewModel(taskRepository, authRepository);
+    await _pumpHome(tester, viewModel);
+
+    taskRepository.emit(const []);
+    await tester.pump();
+
+    expect(find.text('Tasks'), findsOneWidget);
+    expect(find.text('Rodrigo Galeano'), findsOneWidget);
+    expect(find.text('rodrigo@example.com'), findsOneWidget);
+
+    await tester.tap(find.byType(RGAvatar));
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 1));
+
+    expect(authRepository.logoutCallCount, 1);
+  });
 }

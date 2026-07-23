@@ -148,5 +148,13 @@
   "homeLoadError": "Couldn't load your tasks.",
   "@homeLoadError": {
     "description": "Shown when the task list fails to load"
+  },
+  "homeNavTasks": "Tasks",
+  "@homeNavTasks": {
+    "description": "Sidebar navigation label for the tasks section"
+  },
+  "homeListTitle": "Tasks.",
+  "@homeListTitle": {
+    "description": "Title of the task list area on wide screens"
   }
 }

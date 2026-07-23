@@ -35,5 +35,7 @@
   "homeTaskCount": "{count, plural, =1{1 tarea} other{{count} tareas}}",
   "homeEmptyTitle": "Sin tareas.",
   "homeEmptyDescription": "Toca + para agregar tu primera tarea.",
-  "homeLoadError": "No se pudieron cargar tus tareas."
+  "homeLoadError": "No se pudieron cargar tus tareas.",
+  "homeNavTasks": "Tareas",
+  "homeListTitle": "Tareas."
 }

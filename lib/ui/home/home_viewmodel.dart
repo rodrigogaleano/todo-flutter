@@ -45,6 +45,16 @@ class HomeViewModel extends ChangeNotifier {
     return '?';
   }
 
+  String get userName {
+    final name = _authRepository.currentUserDisplayName?.trim() ?? '';
+    if (name.isNotEmpty) return name;
+    final email = _authRepository.currentUserEmail?.trim() ?? '';
+    if (email.isNotEmpty) return email.split('@').first;
+    return '?';
+  }
+
+  String get userEmail => _authRepository.currentUserEmail?.trim() ?? '';
+
   void _onTasks(List<Task> tasks) {
     _tasks = tasks;
     _isLoading = false;
