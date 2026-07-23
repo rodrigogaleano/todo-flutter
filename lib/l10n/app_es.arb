@@ -43,5 +43,8 @@
   "createTaskSubmit": "Agregar",
   "createTaskCancel": "Cancelar",
   "createTaskInlineTrigger": "Agregar una tarea",
-  "createTaskFailed": "No se pudo agregar la tarea. Inténtalo de nuevo."
+  "createTaskFailed": "No se pudo agregar la tarea. Inténtalo de nuevo.",
+  "taskDeleteLabel": "Eliminar tarea",
+  "taskToggleFailed": "No se pudo actualizar la tarea. Inténtalo de nuevo.",
+  "taskDeleteFailed": "No se pudo eliminar la tarea. Inténtalo de nuevo."
 }

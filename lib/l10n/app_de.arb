@@ -43,5 +43,8 @@
   "createTaskSubmit": "Hinzufügen",
   "createTaskCancel": "Abbrechen",
   "createTaskInlineTrigger": "Aufgabe hinzufügen",
-  "createTaskFailed": "Aufgabe konnte nicht hinzugefügt werden. Bitte versuche es erneut."
+  "createTaskFailed": "Aufgabe konnte nicht hinzugefügt werden. Bitte versuche es erneut.",
+  "taskDeleteLabel": "Aufgabe löschen",
+  "taskToggleFailed": "Aufgabe konnte nicht aktualisiert werden. Bitte versuche es erneut.",
+  "taskDeleteFailed": "Aufgabe konnte nicht gelöscht werden. Bitte versuche es erneut."
 }

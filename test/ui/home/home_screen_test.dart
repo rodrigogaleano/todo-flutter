@@ -66,6 +66,48 @@ void main() {
     expect(authRepository.logoutCallCount, 1);
   });
 
+  testWidgets('toggles a task when its checkbox is tapped', (tester) async {
+    final taskRepository = FakeTaskRepository();
+    final viewModel = HomeViewModel(taskRepository, FakeAuthRepository());
+    await _pumpHome(tester, viewModel);
+
+    taskRepository.emit([
+      Task(
+        id: '1',
+        title: 'Buy milk',
+        isDone: false,
+        createdAt: DateTime(2026),
+      ),
+    ]);
+    await tester.pump();
+
+    await tester.tap(find.byType(RGCheckbox));
+    await tester.pump();
+
+    expect(taskRepository.setDoneCalls, [('1', true)]);
+  });
+
+  testWidgets('deletes a task when the trash button is tapped', (tester) async {
+    final taskRepository = FakeTaskRepository();
+    final viewModel = HomeViewModel(taskRepository, FakeAuthRepository());
+    await _pumpHome(tester, viewModel);
+
+    taskRepository.emit([
+      Task(
+        id: '1',
+        title: 'Buy milk',
+        isDone: false,
+        createdAt: DateTime(2026),
+      ),
+    ]);
+    await tester.pump();
+
+    await tester.tap(find.byIcon(Icons.delete_outline));
+    await tester.pump();
+
+    expect(taskRepository.deletedIds, ['1']);
+  });
+
   testWidgets('creates a task from the bottom sheet on narrow screens', (
     tester,
   ) async {

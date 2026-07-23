@@ -43,5 +43,8 @@
   "createTaskSubmit": "Adicionar",
   "createTaskCancel": "Cancelar",
   "createTaskInlineTrigger": "Adicionar uma tarefa",
-  "createTaskFailed": "Não foi possível adicionar a tarefa. Tente novamente."
+  "createTaskFailed": "Não foi possível adicionar a tarefa. Tente novamente.",
+  "taskDeleteLabel": "Excluir tarefa",
+  "taskToggleFailed": "Não foi possível atualizar a tarefa. Tente novamente.",
+  "taskDeleteFailed": "Não foi possível excluir a tarefa. Tente novamente."
 }

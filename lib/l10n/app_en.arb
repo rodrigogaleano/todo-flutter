@@ -180,5 +180,17 @@
   "createTaskFailed": "Couldn't add the task. Please try again.",
   "@createTaskFailed": {
     "description": "Shown when creating a task fails"
+  },
+  "taskDeleteLabel": "Delete task",
+  "@taskDeleteLabel": {
+    "description": "Tooltip and label for the delete-task button on a row"
+  },
+  "taskToggleFailed": "Couldn't update the task. Please try again.",
+  "@taskToggleFailed": {
+    "description": "Shown when toggling a task's done state fails"
+  },
+  "taskDeleteFailed": "Couldn't delete the task. Please try again.",
+  "@taskDeleteFailed": {
+    "description": "Shown when deleting a task fails"
   }
 }

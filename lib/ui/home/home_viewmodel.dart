@@ -21,10 +21,20 @@ class HomeViewModel extends ChangeNotifier {
 
   late final Command0<void> logout;
   late final Command1<void, String> createTask = Command1(_createTask);
+  late final Command1<void, Task> toggleTask = Command1(_toggleTask);
+  late final Command1<void, Task> deleteTask = Command1(_deleteTask);
   late final StreamSubscription<List<Task>> _subscription;
 
   Future<Result<void>> _createTask(String title) {
     return _taskRepository.createTask(title.trim());
+  }
+
+  Future<Result<void>> _toggleTask(Task task) {
+    return _taskRepository.setTaskDone(task.id, isDone: !task.isDone);
+  }
+
+  Future<Result<void>> _deleteTask(Task task) {
+    return _taskRepository.deleteTask(task.id);
   }
 
   List<Task> _tasks = const [];
@@ -79,6 +89,8 @@ class HomeViewModel extends ChangeNotifier {
     unawaited(_subscription.cancel());
     logout.dispose();
     createTask.dispose();
+    toggleTask.dispose();
+    deleteTask.dispose();
     super.dispose();
   }
 }

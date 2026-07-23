@@ -24,7 +24,19 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with CommandFeedback {
   @override
-  List<Command<void>> get feedbackCommands => [widget.viewModel.logout];
+  List<Command<void>> get feedbackCommands => [
+    widget.viewModel.logout,
+    widget.viewModel.toggleTask,
+    widget.viewModel.deleteTask,
+  ];
+
+  @override
+  String commandErrorMessage(Command<void> command, Object error) {
+    final l10n = AppLocalizations.of(context);
+    if (command == widget.viewModel.toggleTask) return l10n.taskToggleFailed;
+    if (command == widget.viewModel.deleteTask) return l10n.taskDeleteFailed;
+    return super.commandErrorMessage(command, error);
+  }
 
   @override
   void dispose() {
@@ -33,6 +45,12 @@ class _HomeScreenState extends State<HomeScreen> with CommandFeedback {
   }
 
   void _logout() => unawaited(widget.viewModel.logout.execute());
+
+  void _toggle(Task task) =>
+      unawaited(widget.viewModel.toggleTask.execute(task));
+
+  void _delete(Task task) =>
+      unawaited(widget.viewModel.deleteTask.execute(task));
 
   void _openCreateTask() {
     final isWide = MediaQuery.sizeOf(context).width >= _kHomeDesktopBreakpoint;
@@ -181,8 +199,11 @@ class _HomeScreenState extends State<HomeScreen> with CommandFeedback {
           child: ListView.separated(
             itemCount: viewModel.tasks.length,
             separatorBuilder: (context, index) => const RGDivider(),
-            itemBuilder: (context, index) =>
-                _TaskRow(task: viewModel.tasks[index]),
+            itemBuilder: (context, index) => _TaskRow(
+              task: viewModel.tasks[index],
+              onToggle: _toggle,
+              onDelete: _delete,
+            ),
           ),
         ),
       ],
@@ -299,18 +320,25 @@ class _CreateTaskTrigger extends StatelessWidget {
 }
 
 class _TaskRow extends StatelessWidget {
-  const _TaskRow({required this.task});
+  const _TaskRow({
+    required this.task,
+    required this.onToggle,
+    required this.onDelete,
+  });
 
   final Task task;
+  final ValueChanged<Task> onToggle;
+  final ValueChanged<Task> onDelete;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final colors = Theme.of(context).colorScheme;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: RGSpacing.md),
       child: Row(
         children: [
-          RGCheckbox(value: task.isDone, onChanged: null),
+          RGCheckbox(value: task.isDone, onChanged: (_) => onToggle(task)),
           const SizedBox(width: RGSpacing.md),
           Expanded(
             child: RGText.body(
@@ -321,6 +349,12 @@ class _TaskRow extends StatelessWidget {
                   ? const TextStyle(decoration: TextDecoration.lineThrough)
                   : null,
             ),
+          ),
+          RGButton.icon(
+            icon: Icons.delete_outline,
+            tooltip: l10n.taskDeleteLabel,
+            variant: RGButtonVariant.text,
+            onPressed: () => onDelete(task),
           ),
         ],
       ),
