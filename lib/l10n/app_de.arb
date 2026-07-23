@@ -49,6 +49,7 @@
   "taskDeleteFailed": "Aufgabe konnte nicht gelöscht werden. Bitte versuche es erneut.",
   "settingsTitle": "Einstellungen.",
   "settingsNavSettings": "Einstellungen",
+  "settingsLanguageSection": "Sprache",
   "settingsAccountSection": "Konto",
   "settingsEmailLabel": "E-Mail",
   "settingsLogout": "Abmelden"

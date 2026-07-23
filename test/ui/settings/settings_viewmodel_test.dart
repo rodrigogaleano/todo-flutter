@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:todo_flutter/ui/settings/settings_viewmodel.dart';
 
@@ -5,11 +6,13 @@ import '../../utils/fakes.dart';
 
 void main() {
   late FakeAuthRepository authRepository;
+  late FakeSettingsRepository settingsRepository;
   late SettingsViewModel viewModel;
 
   setUp(() {
     authRepository = FakeAuthRepository();
-    viewModel = SettingsViewModel(authRepository);
+    settingsRepository = FakeSettingsRepository();
+    viewModel = SettingsViewModel(authRepository, settingsRepository);
   });
 
   tearDown(() {
@@ -36,5 +39,23 @@ void main() {
   test('exposes the trimmed email', () {
     authRepository.currentUserEmailValue = '  rodrigo@example.com  ';
     expect(viewModel.userEmail, 'rodrigo@example.com');
+  });
+
+  test('locale reflects the settings repository', () async {
+    expect(viewModel.locale, isNull);
+    await settingsRepository.setLocale(const Locale('es'));
+    expect(viewModel.locale, const Locale('es'));
+  });
+
+  test('setLocale forwards to the settings repository', () async {
+    await viewModel.setLocale(const Locale('de'));
+    expect(settingsRepository.setLocaleCalls, [const Locale('de')]);
+  });
+
+  test('notifies listeners when the settings repository changes', () async {
+    var notified = 0;
+    viewModel.addListener(() => notified++);
+    await settingsRepository.setLocale(const Locale('en'));
+    expect(notified, 1);
   });
 }

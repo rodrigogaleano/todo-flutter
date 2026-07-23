@@ -58,8 +58,9 @@ GoRouter router(AuthRepository authRepository) {
       ),
       GoRoute(
         path: Routes.settings,
-        builder: (context, state) =>
-            SettingsScreen(viewModel: SettingsViewModel(context.read())),
+        builder: (context, state) => SettingsScreen(
+          viewModel: SettingsViewModel(context.read(), context.read()),
+        ),
       ),
     ],
   );

@@ -13,6 +13,13 @@ import 'package:todo_flutter/utils/command.dart';
 const double _kSettingsDesktopBreakpoint = 840;
 const double _kSettingsContentMaxWidth = 480;
 
+const List<RGSelectOption<Locale>> _languageOptions = [
+  RGSelectOption(value: Locale('pt'), label: 'Português'),
+  RGSelectOption(value: Locale('en'), label: 'English'),
+  RGSelectOption(value: Locale('es'), label: 'Español'),
+  RGSelectOption(value: Locale('de'), label: 'Deutsch'),
+];
+
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({required this.viewModel, super.key});
 
@@ -116,12 +123,53 @@ class _SettingsScreenState extends State<SettingsScreen> with CommandFeedback {
   }
 
   Widget _sections(BuildContext context) {
+    return ListenableBuilder(
+      listenable: widget.viewModel,
+      builder: (context, _) {
+        final effective =
+            widget.viewModel.locale ?? Localizations.localeOf(context);
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _LanguageSection(
+              value: Locale(effective.languageCode),
+              onChanged: (locale) =>
+                  unawaited(widget.viewModel.setLocale(locale)),
+            ),
+            const SizedBox(height: RGSpacing.xxl),
+            _AccountSection(
+              email: widget.viewModel.userEmail,
+              onLogout: _logout,
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class _LanguageSection extends StatelessWidget {
+  const _LanguageSection({required this.value, required this.onChanged});
+
+  final Locale value;
+  final ValueChanged<Locale> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final colors = Theme.of(context).colorScheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        _AccountSection(
-          email: widget.viewModel.userEmail,
-          onLogout: _logout,
+        RGText.overline(
+          l10n.settingsLanguageSection,
+          color: colors.onSurfaceVariant,
+        ),
+        const SizedBox(height: RGSpacing.sm),
+        RGSelect<Locale>(
+          value: value,
+          options: _languageOptions,
+          onChanged: onChanged,
         ),
       ],
     );

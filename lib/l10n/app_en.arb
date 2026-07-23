@@ -201,6 +201,10 @@
   "@settingsNavSettings": {
     "description": "Sidebar navigation label for the settings section"
   },
+  "settingsLanguageSection": "Language",
+  "@settingsLanguageSection": {
+    "description": "Section header for the language selector"
+  },
   "settingsAccountSection": "Account",
   "@settingsAccountSection": {
     "description": "Section header for the account settings"

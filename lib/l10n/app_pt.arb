@@ -49,6 +49,7 @@
   "taskDeleteFailed": "Não foi possível excluir a tarefa. Tente novamente.",
   "settingsTitle": "Configurações.",
   "settingsNavSettings": "Configurações",
+  "settingsLanguageSection": "Idioma",
   "settingsAccountSection": "Conta",
   "settingsEmailLabel": "Email",
   "settingsLogout": "Sair"

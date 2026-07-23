@@ -38,11 +38,19 @@ Future<void> _pumpSettings(
   );
 }
 
+SettingsViewModel _viewModel(
+  FakeAuthRepository authRepository, [
+  FakeSettingsRepository? settingsRepository,
+]) => SettingsViewModel(
+  authRepository,
+  settingsRepository ?? FakeSettingsRepository(),
+);
+
 void main() {
   testWidgets('shows the account email and title', (tester) async {
     final authRepository = FakeAuthRepository()
       ..currentUserEmailValue = 'rodrigo@example.com';
-    await _pumpSettings(tester, SettingsViewModel(authRepository));
+    await _pumpSettings(tester, _viewModel(authRepository));
 
     expect(find.text('Settings.'), findsOneWidget);
     expect(find.text('Account'), findsOneWidget);
@@ -52,7 +60,7 @@ void main() {
   testWidgets('signs out when the sign-out button is tapped', (tester) async {
     final authRepository = FakeAuthRepository()
       ..currentUserEmailValue = 'rodrigo@example.com';
-    await _pumpSettings(tester, SettingsViewModel(authRepository));
+    await _pumpSettings(tester, _viewModel(authRepository));
 
     await tester.tap(find.text('Sign out'));
     await tester.pump();
@@ -61,11 +69,26 @@ void main() {
     expect(authRepository.logoutCallCount, 1);
   });
 
+  testWidgets('changes the language from the selector', (tester) async {
+    final settingsRepository = FakeSettingsRepository();
+    await _pumpSettings(
+      tester,
+      _viewModel(FakeAuthRepository(), settingsRepository),
+    );
+
+    await tester.tap(find.byType(RGSelect<Locale>));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Español'));
+    await tester.pumpAndSettle();
+
+    expect(settingsRepository.setLocaleCalls, [const Locale('es')]);
+  });
+
   testWidgets('navigates back on narrow screens', (tester) async {
     final authRepository = FakeAuthRepository();
     await _pumpSettings(
       tester,
-      SettingsViewModel(authRepository),
+      _viewModel(authRepository),
       initialLocation: '/',
     );
 
@@ -89,7 +112,7 @@ void main() {
     final authRepository = FakeAuthRepository()
       ..currentUserDisplayNameValue = 'Rodrigo Galeano'
       ..currentUserEmailValue = 'rodrigo@example.com';
-    await _pumpSettings(tester, SettingsViewModel(authRepository));
+    await _pumpSettings(tester, _viewModel(authRepository));
 
     expect(find.text('Tasks'), findsOneWidget);
     expect(find.text('Settings'), findsOneWidget);
