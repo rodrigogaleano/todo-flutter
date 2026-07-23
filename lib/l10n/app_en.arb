@@ -192,5 +192,37 @@
   "taskDeleteFailed": "Couldn't delete the task. Please try again.",
   "@taskDeleteFailed": {
     "description": "Shown when deleting a task fails"
+  },
+  "settingsTitle": "Settings.",
+  "@settingsTitle": {
+    "description": "Title of the settings screen"
+  },
+  "settingsNavSettings": "Settings",
+  "@settingsNavSettings": {
+    "description": "Sidebar navigation label for the settings section"
+  },
+  "settingsAppearanceSection": "Appearance",
+  "@settingsAppearanceSection": {
+    "description": "Section header for the appearance settings"
+  },
+  "settingsDarkTheme": "Dark theme",
+  "@settingsDarkTheme": {
+    "description": "Label for the dark theme toggle"
+  },
+  "settingsLanguageSection": "Language",
+  "@settingsLanguageSection": {
+    "description": "Section header for the language selector"
+  },
+  "settingsAccountSection": "Account",
+  "@settingsAccountSection": {
+    "description": "Section header for the account settings"
+  },
+  "settingsEmailLabel": "Email",
+  "@settingsEmailLabel": {
+    "description": "Label for the account email shown in settings"
+  },
+  "settingsLogout": "Sign out",
+  "@settingsLogout": {
+    "description": "Button that signs the user out"
   }
 }

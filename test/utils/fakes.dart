@@ -1,7 +1,8 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:todo_flutter/data/repositories/auth/auth_repository.dart';
+import 'package:todo_flutter/data/repositories/settings/settings_repository.dart';
 import 'package:todo_flutter/data/repositories/task/task_repository.dart';
 import 'package:todo_flutter/domain/models/task/task.dart';
 import 'package:todo_flutter/utils/result.dart';
@@ -124,4 +125,32 @@ class FakeTaskRepository implements TaskRepository {
   }
 
   Future<void> dispose() => _controller.close();
+}
+
+class FakeSettingsRepository extends ChangeNotifier
+    implements SettingsRepository {
+  Locale? _locale;
+  ThemeMode _themeMode = ThemeMode.system;
+  final List<Locale?> setLocaleCalls = [];
+  final List<ThemeMode> setThemeModeCalls = [];
+
+  @override
+  Locale? get locale => _locale;
+
+  @override
+  Future<void> setLocale(Locale? locale) async {
+    setLocaleCalls.add(locale);
+    _locale = locale;
+    notifyListeners();
+  }
+
+  @override
+  ThemeMode get themeMode => _themeMode;
+
+  @override
+  Future<void> setThemeMode(ThemeMode mode) async {
+    setThemeModeCalls.add(mode);
+    _themeMode = mode;
+    notifyListeners();
+  }
 }

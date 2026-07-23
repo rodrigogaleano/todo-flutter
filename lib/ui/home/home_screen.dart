@@ -1,9 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rg_design_system/rg_design_system.dart';
 import 'package:todo_flutter/domain/models/task/task.dart';
 import 'package:todo_flutter/l10n/generated/app_localizations.dart';
+import 'package:todo_flutter/routing/routes.dart';
+import 'package:todo_flutter/ui/core/app_sidebar.dart';
 import 'package:todo_flutter/ui/core/command_feedback.dart';
 import 'package:todo_flutter/ui/home/home_viewmodel.dart';
 import 'package:todo_flutter/ui/home/widgets/create_task_form.dart';
@@ -11,7 +14,6 @@ import 'package:todo_flutter/utils/command.dart';
 
 const double _kHomeDesktopBreakpoint = 840;
 const double _kHomeContentMaxWidth = 720;
-const double _kSidebarWidth = 240;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({required this.viewModel, super.key});
@@ -25,7 +27,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with CommandFeedback {
   @override
   List<Command<void>> get feedbackCommands => [
-    widget.viewModel.logout,
     widget.viewModel.toggleTask,
     widget.viewModel.deleteTask,
   ];
@@ -44,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> with CommandFeedback {
     super.dispose();
   }
 
-  void _logout() => unawaited(widget.viewModel.logout.execute());
+  void _openSettings() => unawaited(context.push(Routes.settings));
 
   void _toggle(Task task) =>
       unawaited(widget.viewModel.toggleTask.execute(task));
@@ -115,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> with CommandFeedback {
             children: [
               RGText.h3(l10n.homeTitle),
               InkWell(
-                onTap: _logout,
+                onTap: _openSettings,
                 customBorder: const CircleBorder(),
                 child: RGAvatar(widget.viewModel.avatarInitials),
               ),
@@ -132,7 +133,14 @@ class _HomeScreenState extends State<HomeScreen> with CommandFeedback {
     final l10n = AppLocalizations.of(context);
     return Row(
       children: [
-        _Sidebar(viewModel: widget.viewModel, onLogout: _logout),
+        AppSidebar(
+          initials: widget.viewModel.avatarInitials,
+          userName: widget.viewModel.userName,
+          userEmail: widget.viewModel.userEmail,
+          active: AppSidebarSection.tasks,
+          onSelectTasks: () {},
+          onSelectSettings: () => context.go(Routes.settings),
+        ),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(
@@ -205,97 +213,6 @@ class _HomeScreenState extends State<HomeScreen> with CommandFeedback {
               onDelete: _delete,
             ),
           ),
-        ),
-      ],
-    );
-  }
-}
-
-class _Sidebar extends StatelessWidget {
-  const _Sidebar({required this.viewModel, required this.onLogout});
-
-  final HomeViewModel viewModel;
-  final VoidCallback onLogout;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final colors = Theme.of(context).colorScheme;
-    return Container(
-      width: _kSidebarWidth,
-      decoration: BoxDecoration(
-        border: Border(right: BorderSide(color: colors.outline)),
-      ),
-      padding: const EdgeInsets.symmetric(
-        horizontal: RGSpacing.lg,
-        vertical: RGSpacing.xl,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          RGText.h3(l10n.homeTitle),
-          const SizedBox(height: RGSpacing.xxl),
-          _NavItem(label: l10n.homeNavTasks, active: true),
-          const Spacer(),
-          const RGDivider(),
-          const SizedBox(height: RGSpacing.md),
-          InkWell(
-            onTap: onLogout,
-            child: Row(
-              children: [
-                RGAvatar(viewModel.avatarInitials, size: 36),
-                const SizedBox(width: RGSpacing.md),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      RGText.body(
-                        viewModel.userName,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontWeight: FontWeight.w700),
-                      ),
-                      if (viewModel.userEmail.isNotEmpty)
-                        RGText.caption(
-                          viewModel.userEmail,
-                          color: colors.onSurfaceVariant,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _NavItem extends StatelessWidget {
-  const _NavItem({required this.label, required this.active});
-
-  final String label;
-  final bool active;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
-    return Row(
-      children: [
-        Container(
-          width: 6,
-          height: 6,
-          color: active ? colors.onSurface : Colors.transparent,
-        ),
-        const SizedBox(width: RGSpacing.sm),
-        RGText.body(
-          label,
-          color: active ? null : colors.onSurfaceVariant,
-          style: active ? const TextStyle(fontWeight: FontWeight.w700) : null,
         ),
       ],
     );
