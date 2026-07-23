@@ -7,3 +7,5 @@ analyzer:
 linter:
   rules:
     public_member_api_docs: false
+    # Repository/service seams are single-method interfaces by design.
+    one_member_abstracts: false

@@ -4,6 +4,10 @@ import 'package:todo_flutter/utils/result.dart';
 abstract class AuthRepository extends ChangeNotifier {
   bool get isAuthenticated;
 
+  String? get currentUserId;
+
+  String? get currentUserDisplayName;
+
   Future<Result<void>> login({
     required String email,
     required String password,

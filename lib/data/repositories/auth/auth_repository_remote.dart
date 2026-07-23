@@ -17,6 +17,12 @@ class AuthRepositoryRemote extends AuthRepository {
   @override
   bool get isAuthenticated => _isAuthenticated;
 
+  @override
+  String? get currentUserId => _authService.currentUserId;
+
+  @override
+  String? get currentUserDisplayName => _authService.currentUserDisplayName;
+
   void _onAuthStateChanged(bool isAuthenticated) {
     if (isAuthenticated == _isAuthenticated) return;
     _isAuthenticated = isAuthenticated;

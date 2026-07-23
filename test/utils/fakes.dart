@@ -12,9 +12,17 @@ class FakeAuthRepository extends ChangeNotifier implements AuthRepository {
   int loginWithGoogleCallCount = 0;
   int sendPasswordResetCallCount = 0;
   bool _isAuthenticated = false;
+  String? currentUserIdValue = 'user-1';
+  String? currentUserDisplayNameValue;
 
   @override
   bool get isAuthenticated => _isAuthenticated;
+
+  @override
+  String? get currentUserId => currentUserIdValue;
+
+  @override
+  String? get currentUserDisplayName => currentUserDisplayNameValue;
 
   @override
   Future<Result<void>> login({

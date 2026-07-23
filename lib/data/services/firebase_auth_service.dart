@@ -17,6 +17,12 @@ class FirebaseAuthService implements AuthService {
       _auth.authStateChanges().map((user) => user != null);
 
   @override
+  String? get currentUserId => _auth.currentUser?.uid;
+
+  @override
+  String? get currentUserDisplayName => _auth.currentUser?.displayName;
+
+  @override
   Future<Result<void>> signIn({
     required String email,
     required String password,
