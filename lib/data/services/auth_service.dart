@@ -7,6 +7,8 @@ abstract interface class AuthService {
 
   String? get currentUserDisplayName;
 
+  String? get currentUserEmail;
+
   Future<Result<void>> signIn({
     required String email,
     required String password,

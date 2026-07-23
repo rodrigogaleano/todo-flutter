@@ -8,6 +8,8 @@ abstract class AuthRepository extends ChangeNotifier {
 
   String? get currentUserDisplayName;
 
+  String? get currentUserEmail;
+
   Future<Result<void>> login({
     required String email,
     required String password,

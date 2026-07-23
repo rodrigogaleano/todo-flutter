@@ -30,5 +30,10 @@
   "authErrorUserDisabled": "Esta conta foi desativada.",
   "authErrorNetwork": "Sem conexão. Verifique sua internet e tente novamente.",
   "authErrorTooManyRequests": "Muitas tentativas. Tente novamente mais tarde.",
-  "authErrorUnknown": "Algo deu errado. Tente novamente."
+  "authErrorUnknown": "Algo deu errado. Tente novamente.",
+  "homeTitle": "Todo",
+  "homeTaskCount": "{count, plural, =1{1 tarefa} other{{count} tarefas}}",
+  "homeEmptyTitle": "Nenhuma tarefa.",
+  "homeEmptyDescription": "Toque em + para adicionar sua primeira tarefa.",
+  "homeLoadError": "Não foi possível carregar suas tarefas."
 }
