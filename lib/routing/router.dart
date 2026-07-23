@@ -10,6 +10,8 @@ import 'package:todo_flutter/ui/auth/signup/signup_screen.dart';
 import 'package:todo_flutter/ui/auth/signup/signup_viewmodel.dart';
 import 'package:todo_flutter/ui/home/home_screen.dart';
 import 'package:todo_flutter/ui/home/home_viewmodel.dart';
+import 'package:todo_flutter/ui/settings/settings_screen.dart';
+import 'package:todo_flutter/ui/settings/settings_viewmodel.dart';
 
 String? authRedirect({
   required bool isAuthenticated,
@@ -53,6 +55,11 @@ GoRouter router(AuthRepository authRepository) {
         builder: (context, state) => RecoverPasswordScreen(
           viewModel: RecoverPasswordViewModel(context.read()),
         ),
+      ),
+      GoRoute(
+        path: Routes.settings,
+        builder: (context, state) =>
+            SettingsScreen(viewModel: SettingsViewModel(context.read())),
       ),
     ],
   );

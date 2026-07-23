@@ -4,12 +4,12 @@ import 'package:flutter/foundation.dart';
 import 'package:todo_flutter/data/repositories/auth/auth_repository.dart';
 import 'package:todo_flutter/data/repositories/task/task_repository.dart';
 import 'package:todo_flutter/domain/models/task/task.dart';
+import 'package:todo_flutter/ui/core/user_display.dart';
 import 'package:todo_flutter/utils/command.dart';
 import 'package:todo_flutter/utils/result.dart';
 
 class HomeViewModel extends ChangeNotifier {
   HomeViewModel(this._taskRepository, this._authRepository) {
-    logout = Command0(_authRepository.logout);
     _subscription = _taskRepository.watchTasks().listen(
       _onTasks,
       onError: _onError,
@@ -19,7 +19,6 @@ class HomeViewModel extends ChangeNotifier {
   final TaskRepository _taskRepository;
   final AuthRepository _authRepository;
 
-  late final Command0<void> logout;
   late final Command1<void, String> createTask = Command1(_createTask);
   late final Command1<void, Task> toggleTask = Command1(_toggleTask);
   late final Command1<void, Task> deleteTask = Command1(_deleteTask);
@@ -48,28 +47,17 @@ class HomeViewModel extends ChangeNotifier {
 
   int get openTaskCount => _tasks.where((task) => !task.isDone).length;
 
-  String get avatarInitials {
-    final name = _authRepository.currentUserDisplayName?.trim() ?? '';
-    if (name.isNotEmpty) {
-      final parts = name.split(RegExp(r'\s+'));
-      final first = parts.first[0];
-      final last = parts.length > 1 ? parts.last[0] : '';
-      return (first + last).toUpperCase();
-    }
-    final email = _authRepository.currentUserEmail?.trim() ?? '';
-    if (email.isNotEmpty) return email[0].toUpperCase();
-    return '?';
-  }
+  String get avatarInitials => UserDisplay.initials(
+    _authRepository.currentUserDisplayName,
+    _authRepository.currentUserEmail,
+  );
 
-  String get userName {
-    final name = _authRepository.currentUserDisplayName?.trim() ?? '';
-    if (name.isNotEmpty) return name;
-    final email = _authRepository.currentUserEmail?.trim() ?? '';
-    if (email.isNotEmpty) return email.split('@').first;
-    return '?';
-  }
+  String get userName => UserDisplay.name(
+    _authRepository.currentUserDisplayName,
+    _authRepository.currentUserEmail,
+  );
 
-  String get userEmail => _authRepository.currentUserEmail?.trim() ?? '';
+  String get userEmail => UserDisplay.email(_authRepository.currentUserEmail);
 
   void _onTasks(List<Task> tasks) {
     _tasks = tasks;
@@ -87,7 +75,6 @@ class HomeViewModel extends ChangeNotifier {
   @override
   void dispose() {
     unawaited(_subscription.cancel());
-    logout.dispose();
     createTask.dispose();
     toggleTask.dispose();
     deleteTask.dispose();

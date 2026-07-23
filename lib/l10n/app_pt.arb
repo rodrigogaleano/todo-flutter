@@ -46,5 +46,10 @@
   "createTaskFailed": "Não foi possível adicionar a tarefa. Tente novamente.",
   "taskDeleteLabel": "Excluir tarefa",
   "taskToggleFailed": "Não foi possível atualizar a tarefa. Tente novamente.",
-  "taskDeleteFailed": "Não foi possível excluir a tarefa. Tente novamente."
+  "taskDeleteFailed": "Não foi possível excluir a tarefa. Tente novamente.",
+  "settingsTitle": "Configurações.",
+  "settingsNavSettings": "Configurações",
+  "settingsAccountSection": "Conta",
+  "settingsEmailLabel": "Email",
+  "settingsLogout": "Sair"
 }

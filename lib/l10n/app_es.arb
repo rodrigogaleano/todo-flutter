@@ -46,5 +46,10 @@
   "createTaskFailed": "No se pudo agregar la tarea. Inténtalo de nuevo.",
   "taskDeleteLabel": "Eliminar tarea",
   "taskToggleFailed": "No se pudo actualizar la tarea. Inténtalo de nuevo.",
-  "taskDeleteFailed": "No se pudo eliminar la tarea. Inténtalo de nuevo."
+  "taskDeleteFailed": "No se pudo eliminar la tarea. Inténtalo de nuevo.",
+  "settingsTitle": "Ajustes.",
+  "settingsNavSettings": "Ajustes",
+  "settingsAccountSection": "Cuenta",
+  "settingsEmailLabel": "Correo",
+  "settingsLogout": "Cerrar sesión"
 }
