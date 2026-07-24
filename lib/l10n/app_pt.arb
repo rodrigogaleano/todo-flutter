@@ -55,5 +55,10 @@
   "settingsLanguageSection": "Idioma",
   "settingsAccountSection": "Conta",
   "settingsEmailLabel": "Email",
-  "settingsLogout": "Sair"
+  "settingsLogout": "Sair",
+  "settingsDeleteAccount": "Excluir conta",
+  "settingsDeleteAccountWarning": "Esta ação é permanente. Todos os seus dados serão apagados e não poderão ser recuperados.",
+  "settingsDeleteAccountConfirmTitle": "Excluir sua conta?",
+  "settingsDeleteAccountCancel": "Cancelar",
+  "settingsReauthTitle": "Confirme sua senha"
 }

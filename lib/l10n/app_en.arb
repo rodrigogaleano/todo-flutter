@@ -228,5 +228,25 @@
   "settingsLogout": "Sign out",
   "@settingsLogout": {
     "description": "Button that signs the user out"
+  },
+  "settingsDeleteAccount": "Delete account",
+  "@settingsDeleteAccount": {
+    "description": "Button that permanently deletes the account"
+  },
+  "settingsDeleteAccountWarning": "This action is permanent. All your data will be erased and cannot be recovered.",
+  "@settingsDeleteAccountWarning": {
+    "description": "Warning shown next to the delete-account button"
+  },
+  "settingsDeleteAccountConfirmTitle": "Delete your account?",
+  "@settingsDeleteAccountConfirmTitle": {
+    "description": "Title of the delete-account confirmation dialog"
+  },
+  "settingsDeleteAccountCancel": "Cancel",
+  "@settingsDeleteAccountCancel": {
+    "description": "Button that dismisses the delete-account dialogs"
+  },
+  "settingsReauthTitle": "Confirm your password",
+  "@settingsReauthTitle": {
+    "description": "Title of the password re-entry dialog before deletion"
   }
 }

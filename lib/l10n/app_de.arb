@@ -55,5 +55,10 @@
   "settingsLanguageSection": "Sprache",
   "settingsAccountSection": "Konto",
   "settingsEmailLabel": "E-Mail",
-  "settingsLogout": "Abmelden"
+  "settingsLogout": "Abmelden",
+  "settingsDeleteAccount": "Konto löschen",
+  "settingsDeleteAccountWarning": "Diese Aktion ist dauerhaft. Alle deine Daten werden gelöscht und können nicht wiederhergestellt werden.",
+  "settingsDeleteAccountConfirmTitle": "Dein Konto löschen?",
+  "settingsDeleteAccountCancel": "Abbrechen",
+  "settingsReauthTitle": "Bestätige dein Passwort"
 }

@@ -3,12 +3,18 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rg_design_system/rg_design_system.dart';
+import 'package:todo_flutter/domain/auth/reauth_outcome.dart';
+import 'package:todo_flutter/domain/auth/sign_in_method.dart';
 import 'package:todo_flutter/l10n/generated/app_localizations.dart';
 import 'package:todo_flutter/routing/routes.dart';
 import 'package:todo_flutter/ui/core/app_sidebar.dart';
+import 'package:todo_flutter/ui/core/auth_error_messages.dart';
 import 'package:todo_flutter/ui/core/command_feedback.dart';
 import 'package:todo_flutter/ui/settings/settings_viewmodel.dart';
+import 'package:todo_flutter/ui/settings/widgets/confirm_delete_dialog.dart';
+import 'package:todo_flutter/ui/settings/widgets/reauth_password_dialog.dart';
 import 'package:todo_flutter/utils/command.dart';
+import 'package:todo_flutter/utils/result.dart';
 
 const double _kSettingsDesktopBreakpoint = 840;
 const double _kSettingsContentMaxWidth = 480;
@@ -31,7 +37,10 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> with CommandFeedback {
   @override
-  List<Command<void>> get feedbackCommands => [widget.viewModel.logout];
+  List<Command<void>> get feedbackCommands => [
+    widget.viewModel.logout,
+    widget.viewModel.deleteAccount,
+  ];
 
   @override
   void dispose() {
@@ -40,6 +49,32 @@ class _SettingsScreenState extends State<SettingsScreen> with CommandFeedback {
   }
 
   void _logout() => unawaited(widget.viewModel.logout.execute());
+
+  Future<void> _deleteAccount() async {
+    final confirmed = await showConfirmDeleteDialog(context);
+    if (!mounted || confirmed != true) return;
+
+    final Result<ReauthOutcome> reauth;
+    if (widget.viewModel.signInMethod == SignInMethod.password) {
+      final password = await showReauthPasswordDialog(context);
+      if (!mounted || password == null) return;
+      reauth = await widget.viewModel.reauthenticateWithPassword(password);
+    } else {
+      reauth = await widget.viewModel.reauthenticateWithGoogle();
+    }
+    if (!mounted) return;
+
+    switch (reauth) {
+      case Ok(value: final outcome):
+        if (outcome == ReauthOutcome.cancelled) return;
+      case Error(:final error):
+        final l10n = AppLocalizations.of(context);
+        showSnackBar(context, authErrorMessage(l10n, error));
+        return;
+    }
+
+    await widget.viewModel.deleteAccount.execute();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -146,6 +181,7 @@ class _SettingsScreenState extends State<SettingsScreen> with CommandFeedback {
             _AccountSection(
               email: widget.viewModel.userEmail,
               onLogout: _logout,
+              onDeleteAccount: _deleteAccount,
             ),
           ],
         );
@@ -226,10 +262,15 @@ class _LanguageSection extends StatelessWidget {
 }
 
 class _AccountSection extends StatelessWidget {
-  const _AccountSection({required this.email, required this.onLogout});
+  const _AccountSection({
+    required this.email,
+    required this.onLogout,
+    required this.onDeleteAccount,
+  });
 
   final String email;
   final VoidCallback onLogout;
+  final VoidCallback onDeleteAccount;
 
   @override
   Widget build(BuildContext context) {
@@ -270,6 +311,20 @@ class _AccountSection extends StatelessWidget {
             isDestructive: true,
             onPressed: onLogout,
           ),
+        ),
+        const SizedBox(height: RGSpacing.lg),
+        const RGDivider(),
+        const SizedBox(height: RGSpacing.lg),
+        RGButton.outline(
+          l10n.settingsDeleteAccount,
+          isDestructive: true,
+          fullWidth: true,
+          onPressed: onDeleteAccount,
+        ),
+        const SizedBox(height: RGSpacing.sm),
+        RGText.bodyS(
+          l10n.settingsDeleteAccountWarning,
+          color: colors.onSurfaceVariant,
         ),
       ],
     );

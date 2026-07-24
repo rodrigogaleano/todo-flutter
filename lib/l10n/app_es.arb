@@ -55,5 +55,10 @@
   "settingsLanguageSection": "Idioma",
   "settingsAccountSection": "Cuenta",
   "settingsEmailLabel": "Correo",
-  "settingsLogout": "Cerrar sesión"
+  "settingsLogout": "Cerrar sesión",
+  "settingsDeleteAccount": "Eliminar cuenta",
+  "settingsDeleteAccountWarning": "Esta acción es permanente. Todos tus datos se borrarán y no se podrán recuperar.",
+  "settingsDeleteAccountConfirmTitle": "¿Eliminar tu cuenta?",
+  "settingsDeleteAccountCancel": "Cancelar",
+  "settingsReauthTitle": "Confirma tu contraseña"
 }

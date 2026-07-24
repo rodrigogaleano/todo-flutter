@@ -1,22 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:todo_flutter/domain/auth/sign_in_method.dart';
 import 'package:todo_flutter/ui/settings/settings_viewmodel.dart';
+import 'package:todo_flutter/utils/result.dart';
 
 import '../../utils/fakes.dart';
 
 void main() {
   late FakeAuthRepository authRepository;
   late FakeSettingsRepository settingsRepository;
+  late FakeTaskRepository taskRepository;
   late SettingsViewModel viewModel;
 
   setUp(() {
     authRepository = FakeAuthRepository();
     settingsRepository = FakeSettingsRepository();
-    viewModel = SettingsViewModel(authRepository, settingsRepository);
+    taskRepository = FakeTaskRepository();
+    viewModel = SettingsViewModel(
+      authRepository,
+      settingsRepository,
+      taskRepository,
+    );
   });
 
-  tearDown(() {
+  tearDown(() async {
     viewModel.dispose();
+    await taskRepository.dispose();
   });
 
   test('logout forwards to the auth repository', () async {
@@ -68,5 +77,35 @@ void main() {
     viewModel.addListener(() => notified++);
     await settingsRepository.setLocale(const Locale('en'));
     expect(notified, 1);
+  });
+
+  test('signInMethod reflects the auth repository', () {
+    authRepository.signInMethodValue = SignInMethod.google;
+    expect(viewModel.signInMethod, SignInMethod.google);
+  });
+
+  test('reauthenticate methods forward to the auth repository', () async {
+    await viewModel.reauthenticateWithPassword('pw');
+    expect(authRepository.reauthenticateWithPasswordCalls, ['pw']);
+
+    await viewModel.reauthenticateWithGoogle();
+    expect(authRepository.reauthenticateWithGoogleCallCount, 1);
+  });
+
+  test('deleteAccount deletes tasks then the account', () async {
+    await viewModel.deleteAccount.execute();
+
+    expect(taskRepository.deleteAllTasksCallCount, 1);
+    expect(authRepository.deleteAccountCallCount, 1);
+  });
+
+  test('deleteAccount does not delete the account if tasks fail', () async {
+    taskRepository.deleteAllTasksResult = Result.error(Exception('boom'));
+
+    await viewModel.deleteAccount.execute();
+
+    expect(taskRepository.deleteAllTasksCallCount, 1);
+    expect(authRepository.deleteAccountCallCount, 0);
+    expect(viewModel.deleteAccount.error, isTrue);
   });
 }

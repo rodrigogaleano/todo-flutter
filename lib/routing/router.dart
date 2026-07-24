@@ -74,7 +74,11 @@ GoRouter router(AuthRepository authRepository) {
         pageBuilder: (context, state) => _adaptivePage(
           context,
           SettingsScreen(
-            viewModel: SettingsViewModel(context.read(), context.read()),
+            viewModel: SettingsViewModel(
+              context.read(),
+              context.read(),
+              context.read(),
+            ),
           ),
         ),
       ),
