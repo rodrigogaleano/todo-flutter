@@ -402,7 +402,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: dc77e2aaef82732a180dbf11c418383665ef26ac
+      resolved-ref: b5154114da5f6d164349a6d69ac9f29e6463cac8
       url: "https://github.com/rodrigogaleano/rg-design-system-flutter.git"
     source: git
     version: "0.0.1"
