@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:todo_flutter/data/services/auth_service.dart';
 import 'package:todo_flutter/domain/auth/auth_failure.dart';
@@ -61,6 +62,7 @@ class FirebaseAuthService implements AuthService {
 
   @override
   Future<Result<void>> signInWithGoogle() async {
+    if (kIsWeb) return _signInWithGoogleWeb();
     try {
       final credential = await _googleCredential();
       await _auth.signInWithCredential(credential);
@@ -71,6 +73,18 @@ class FirebaseAuthService implements AuthService {
       }
       return const Result.error(AuthException(AuthFailure.unknown));
     } on FirebaseAuthException catch (error) {
+      return Result.error(AuthException(_mapCode(error.code)));
+    } on Exception {
+      return const Result.error(AuthException(AuthFailure.unknown));
+    }
+  }
+
+  Future<Result<void>> _signInWithGoogleWeb() async {
+    try {
+      await _auth.signInWithPopup(GoogleAuthProvider());
+      return const Result.ok(null);
+    } on FirebaseAuthException catch (error) {
+      if (_isPopupCancellation(error.code)) return const Result.ok(null);
       return Result.error(AuthException(_mapCode(error.code)));
     } on Exception {
       return const Result.error(AuthException(AuthFailure.unknown));
@@ -110,6 +124,7 @@ class FirebaseAuthService implements AuthService {
 
   @override
   Future<Result<ReauthOutcome>> reauthenticateWithGoogle() async {
+    if (kIsWeb) return _reauthenticateWithGoogleWeb();
     try {
       final credential = await _googleCredential();
       await _auth.currentUser?.reauthenticateWithCredential(credential);
@@ -120,6 +135,24 @@ class FirebaseAuthService implements AuthService {
       }
       return const Result.error(AuthException(AuthFailure.unknown));
     } on FirebaseAuthException catch (error) {
+      return Result.error(AuthException(_mapCode(error.code)));
+    } on Exception {
+      return const Result.error(AuthException(AuthFailure.unknown));
+    }
+  }
+
+  Future<Result<ReauthOutcome>> _reauthenticateWithGoogleWeb() async {
+    try {
+      final user = _auth.currentUser;
+      if (user == null) {
+        return const Result.error(AuthException(AuthFailure.userNotFound));
+      }
+      await user.reauthenticateWithPopup(GoogleAuthProvider());
+      return const Result.ok(ReauthOutcome.reauthenticated);
+    } on FirebaseAuthException catch (error) {
+      if (_isPopupCancellation(error.code)) {
+        return const Result.ok(ReauthOutcome.cancelled);
+      }
       return Result.error(AuthException(_mapCode(error.code)));
     } on Exception {
       return const Result.error(AuthException(AuthFailure.unknown));
@@ -153,6 +186,9 @@ class FirebaseAuthService implements AuthService {
       return const Result.error(AuthException(AuthFailure.unknown));
     }
   }
+
+  bool _isPopupCancellation(String code) =>
+      code == 'popup-closed-by-user' || code == 'cancelled-popup-request';
 
   AuthFailure _mapCode(String code) {
     switch (code) {
