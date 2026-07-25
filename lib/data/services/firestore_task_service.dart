@@ -39,6 +39,16 @@ class FirestoreTaskService implements TaskService {
     return _tasks(userId).doc(taskId).delete();
   }
 
+  @override
+  Future<void> deleteAllTasks(String userId) async {
+    final snapshot = await _tasks(userId).get();
+    final batch = _firestore.batch();
+    for (final doc in snapshot.docs) {
+      batch.delete(doc.reference);
+    }
+    await batch.commit();
+  }
+
   CollectionReference<Map<String, dynamic>> _tasks(String userId) {
     return _firestore.collection('users').doc(userId).collection('tasks');
   }

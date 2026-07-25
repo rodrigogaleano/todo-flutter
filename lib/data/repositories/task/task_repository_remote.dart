@@ -34,6 +34,11 @@ class TaskRepositoryRemote implements TaskRepository {
     return _guard((userId) => _taskService.deleteTask(userId, taskId));
   }
 
+  @override
+  Future<Result<void>> deleteAllTasks() {
+    return _guard(_taskService.deleteAllTasks);
+  }
+
   Future<Result<void>> _guard(
     Future<void> Function(String userId) action,
   ) async {

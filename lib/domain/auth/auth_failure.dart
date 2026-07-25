@@ -7,6 +7,7 @@ enum AuthFailure {
   userDisabled,
   networkError,
   tooManyRequests,
+  requiresRecentLogin,
   unknown,
 }
 

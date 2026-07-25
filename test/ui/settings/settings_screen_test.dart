@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rg_design_system/rg_design_system.dart';
+import 'package:todo_flutter/domain/auth/sign_in_method.dart';
 import 'package:todo_flutter/l10n/generated/app_localizations.dart';
 import 'package:todo_flutter/ui/settings/settings_screen.dart';
 import 'package:todo_flutter/ui/settings/settings_viewmodel.dart';
@@ -41,9 +42,11 @@ Future<void> _pumpSettings(
 SettingsViewModel _viewModel(
   FakeAuthRepository authRepository, [
   FakeSettingsRepository? settingsRepository,
+  FakeTaskRepository? taskRepository,
 ]) => SettingsViewModel(
   authRepository,
   settingsRepository ?? FakeSettingsRepository(),
+  taskRepository ?? FakeTaskRepository(),
 );
 
 void main() {
@@ -112,6 +115,86 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('HOME'), findsOneWidget);
+  });
+
+  testWidgets('does not delete when confirmation is cancelled', (tester) async {
+    final taskRepository = FakeTaskRepository();
+    addTearDown(taskRepository.dispose);
+    await _pumpSettings(
+      tester,
+      _viewModel(FakeAuthRepository(), null, taskRepository),
+    );
+
+    await tester.ensureVisible(find.text('Delete account'));
+    await tester.tap(find.text('Delete account'));
+    await tester.pumpAndSettle();
+    expect(find.text('Delete your account?'), findsOneWidget);
+
+    await tester.tap(find.text('Cancel'));
+    await tester.pumpAndSettle();
+
+    expect(taskRepository.deleteAllTasksCallCount, 0);
+  });
+
+  testWidgets('deletes after password reauthentication', (tester) async {
+    final authRepository = FakeAuthRepository()
+      ..signInMethodValue = SignInMethod.password;
+    final taskRepository = FakeTaskRepository();
+    addTearDown(taskRepository.dispose);
+    await _pumpSettings(
+      tester,
+      _viewModel(authRepository, null, taskRepository),
+    );
+
+    await tester.ensureVisible(find.text('Delete account'));
+    await tester.tap(find.text('Delete account'));
+    await tester.pumpAndSettle();
+    await tester.tap(
+      find.descendant(
+        of: find.byType(Dialog),
+        matching: find.text('Delete account'),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.enterText(find.byType(TextField), 'my-password');
+    await tester.tap(
+      find.descendant(
+        of: find.byType(Dialog),
+        matching: find.text('Delete account'),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(authRepository.reauthenticateWithPasswordCalls, ['my-password']);
+    expect(taskRepository.deleteAllTasksCallCount, 1);
+    expect(authRepository.deleteAccountCallCount, 1);
+  });
+
+  testWidgets('deletes via Google reauthentication', (tester) async {
+    final authRepository = FakeAuthRepository()
+      ..signInMethodValue = SignInMethod.google;
+    final taskRepository = FakeTaskRepository();
+    addTearDown(taskRepository.dispose);
+    await _pumpSettings(
+      tester,
+      _viewModel(authRepository, null, taskRepository),
+    );
+
+    await tester.ensureVisible(find.text('Delete account'));
+    await tester.tap(find.text('Delete account'));
+    await tester.pumpAndSettle();
+    await tester.tap(
+      find.descendant(
+        of: find.byType(Dialog),
+        matching: find.text('Delete account'),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(authRepository.reauthenticateWithGoogleCallCount, 1);
+    expect(taskRepository.deleteAllTasksCallCount, 1);
+    expect(authRepository.deleteAccountCallCount, 1);
   });
 
   testWidgets('shows the sidebar with settings active on wide screens', (

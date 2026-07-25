@@ -12,4 +12,6 @@ abstract interface class TaskService {
   });
 
   Future<void> deleteTask(String userId, String taskId);
+
+  Future<void> deleteAllTasks(String userId);
 }

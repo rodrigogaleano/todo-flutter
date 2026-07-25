@@ -12,6 +12,7 @@ String authErrorMessage(AppLocalizations l10n, Object? error) {
     AuthFailure.userDisabled => l10n.authErrorUserDisabled,
     AuthFailure.networkError => l10n.authErrorNetwork,
     AuthFailure.tooManyRequests => l10n.authErrorTooManyRequests,
+    AuthFailure.requiresRecentLogin => l10n.authErrorRequiresRecentLogin,
     AuthFailure.unknown => l10n.authErrorUnknown,
   };
 }

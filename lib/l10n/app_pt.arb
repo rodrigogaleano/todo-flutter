@@ -30,6 +30,7 @@
   "authErrorUserDisabled": "Esta conta foi desativada.",
   "authErrorNetwork": "Sem conexão. Verifique sua internet e tente novamente.",
   "authErrorTooManyRequests": "Muitas tentativas. Tente novamente mais tarde.",
+  "authErrorRequiresRecentLogin": "Por segurança, entre novamente e tente.",
   "authErrorUnknown": "Algo deu errado. Tente novamente.",
   "homeTitle": "Todo",
   "homeTaskCount": "{count, plural, =1{1 tarefa} other{{count} tarefas}}",
@@ -54,5 +55,10 @@
   "settingsLanguageSection": "Idioma",
   "settingsAccountSection": "Conta",
   "settingsEmailLabel": "Email",
-  "settingsLogout": "Sair"
+  "settingsLogout": "Sair",
+  "settingsDeleteAccount": "Excluir conta",
+  "settingsDeleteAccountWarning": "Esta ação é permanente. Todos os seus dados serão apagados e não poderão ser recuperados.",
+  "settingsDeleteAccountConfirmTitle": "Excluir sua conta?",
+  "settingsDeleteAccountCancel": "Cancelar",
+  "settingsReauthTitle": "Confirme sua senha"
 }

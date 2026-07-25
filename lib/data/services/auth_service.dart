@@ -1,3 +1,5 @@
+import 'package:todo_flutter/domain/auth/reauth_outcome.dart';
+import 'package:todo_flutter/domain/auth/sign_in_method.dart';
 import 'package:todo_flutter/utils/result.dart';
 
 abstract interface class AuthService {
@@ -8,6 +10,8 @@ abstract interface class AuthService {
   String? get currentUserDisplayName;
 
   String? get currentUserEmail;
+
+  SignInMethod get signInMethod;
 
   Future<Result<void>> signIn({
     required String email,
@@ -25,4 +29,10 @@ abstract interface class AuthService {
   Future<Result<void>> sendPasswordResetEmail({required String email});
 
   Future<Result<void>> signOut();
+
+  Future<Result<ReauthOutcome>> reauthenticateWithPassword(String password);
+
+  Future<Result<ReauthOutcome>> reauthenticateWithGoogle();
+
+  Future<Result<void>> deleteAccount();
 }

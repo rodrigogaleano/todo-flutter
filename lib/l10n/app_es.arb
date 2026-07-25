@@ -30,6 +30,7 @@
   "authErrorUserDisabled": "Esta cuenta ha sido deshabilitada.",
   "authErrorNetwork": "Sin conexión. Verifica tu internet e inténtalo de nuevo.",
   "authErrorTooManyRequests": "Demasiados intentos. Inténtalo más tarde.",
+  "authErrorRequiresRecentLogin": "Por seguridad, inicia sesión de nuevo e inténtalo.",
   "authErrorUnknown": "Algo salió mal. Inténtalo de nuevo.",
   "homeTitle": "Todo",
   "homeTaskCount": "{count, plural, =1{1 tarea} other{{count} tareas}}",
@@ -54,5 +55,10 @@
   "settingsLanguageSection": "Idioma",
   "settingsAccountSection": "Cuenta",
   "settingsEmailLabel": "Correo",
-  "settingsLogout": "Cerrar sesión"
+  "settingsLogout": "Cerrar sesión",
+  "settingsDeleteAccount": "Eliminar cuenta",
+  "settingsDeleteAccountWarning": "Esta acción es permanente. Todos tus datos se borrarán y no se podrán recuperar.",
+  "settingsDeleteAccountConfirmTitle": "¿Eliminar tu cuenta?",
+  "settingsDeleteAccountCancel": "Cancelar",
+  "settingsReauthTitle": "Confirma tu contraseña"
 }

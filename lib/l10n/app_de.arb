@@ -30,6 +30,7 @@
   "authErrorUserDisabled": "Dieses Konto wurde deaktiviert.",
   "authErrorNetwork": "Keine Verbindung. Prüfe dein Internet und versuche es erneut.",
   "authErrorTooManyRequests": "Zu viele Versuche. Versuche es später erneut.",
+  "authErrorRequiresRecentLogin": "Melde dich aus Sicherheitsgründen erneut an und versuche es.",
   "authErrorUnknown": "Etwas ist schiefgelaufen. Bitte versuche es erneut.",
   "homeTitle": "Todo",
   "homeTaskCount": "{count, plural, =1{1 Aufgabe} other{{count} Aufgaben}}",
@@ -54,5 +55,10 @@
   "settingsLanguageSection": "Sprache",
   "settingsAccountSection": "Konto",
   "settingsEmailLabel": "E-Mail",
-  "settingsLogout": "Abmelden"
+  "settingsLogout": "Abmelden",
+  "settingsDeleteAccount": "Konto löschen",
+  "settingsDeleteAccountWarning": "Diese Aktion ist dauerhaft. Alle deine Daten werden gelöscht und können nicht wiederhergestellt werden.",
+  "settingsDeleteAccountConfirmTitle": "Dein Konto löschen?",
+  "settingsDeleteAccountCancel": "Abbrechen",
+  "settingsReauthTitle": "Bestätige dein Passwort"
 }

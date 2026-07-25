@@ -9,4 +9,6 @@ abstract interface class TaskRepository {
   Future<Result<void>> setTaskDone(String taskId, {required bool isDone});
 
   Future<Result<void>> deleteTask(String taskId);
+
+  Future<Result<void>> deleteAllTasks();
 }
